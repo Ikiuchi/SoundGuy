@@ -7,15 +7,16 @@ public class Launcher : MonoBehaviour
     public GameObject ball;
 	public float force = 5;
 
-	public void Update()
+	public float launchTimer = 5;
+
+	private void Start()
 	{
-		if (Input.GetKeyDown(KeyCode.L))
-			LaunchBall();
+		InvokeRepeating("LaunchProjectile", 1.0f, launchTimer);
 	}
 
-	public void LaunchBall()
+	public void LaunchProjectile()
 	{
-		GameObject g = Instantiate(ball, transform.position + new Vector3(0,2,2), Quaternion.identity);
+		GameObject g = Instantiate(ball, transform.position + new Vector3(0,1,1), Quaternion.identity);
 		g.GetComponent<Rigidbody>().AddForce(transform.up * force, ForceMode.Impulse);
 	}
 }

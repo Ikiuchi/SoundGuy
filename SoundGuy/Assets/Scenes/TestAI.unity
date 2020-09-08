@@ -160,6 +160,7 @@ MonoBehaviour:
   follow: 1
   navmesh: {fileID: 102201449}
   caps: {fileID: 0}
+  impulseValue: 1
 --- !u!195 &102201449
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -381,7 +382,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 3016609278730821155, guid: 998b69352ef285049b25cf2a024d6774, type: 3}
-  force: 5
+  force: 10
+  launchTimer: 5
 --- !u!1 &406660790
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,8 +15,8 @@ public class PnjController : MonoBehaviour
 
     Rigidbody rb;
 
-    Vector3 impulse;
-    Vector3 posCollision;
+    Vector3 impulse = Vector3.zero;
+    public float impulseValue = 1;
 
     void Start()
     {
@@ -92,6 +92,6 @@ public class PnjController : MonoBehaviour
         rb.isKinematic = false;
         rb.useGravity = true;
 
-        rb.AddForce(-impulse, ForceMode.Impulse);
+        rb.AddForce(-impulse * impulseValue, ForceMode.Impulse);
     }
 }
