@@ -66,7 +66,7 @@ public class PnjController : MonoBehaviour
             rb.isKinematic = true;
             rb.useGravity = false;
 		}
-		else if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
+		if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
         {
             impulse = collision.impulse;
             Death();
