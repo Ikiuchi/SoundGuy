@@ -17,7 +17,8 @@ public class RotationPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.AngleAxis(rotationVelocity, Vector3.up);
+        //transform.rotation = Quaternion.AngleAxis(rotationVelocity, Vector3.up);
+        rigidbody.MoveRotation(Quaternion.AngleAxis(rotationVelocity, Vector3.up));
 
         rotationVelocity += rotationSpeed * Time.deltaTime;
 
@@ -25,7 +26,7 @@ public class RotationPlatform : MonoBehaviour
             rotationVelocity = 0f;
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         other.transform.parent = transform;
     }
@@ -33,5 +34,5 @@ public class RotationPlatform : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         other.transform.parent = null;
-    }
+    }*/
 }
