@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class PnjController : MonoBehaviour
 {
     public Transform player = null;
-    public float moveSpeed = 10.0f;
+    public float moveSpeed = 5.0f;
     public bool follow = true;
     public NavMeshAgent navmesh;
 
@@ -24,6 +24,8 @@ public class PnjController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         caps = GetComponent<CapsuleCollider>();
+
+        navmesh.speed = moveSpeed;
     }
 
     void Update()
@@ -93,5 +95,12 @@ public class PnjController : MonoBehaviour
         rb.useGravity = true;
 
         rb.AddForce(-impulse * impulseValue, ForceMode.Impulse);
+
+        Invoke("Destroy", 5.0f);
+    }
+
+    private void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
