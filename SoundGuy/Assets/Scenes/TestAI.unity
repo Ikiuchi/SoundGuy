@@ -132,7 +132,6 @@ GameObject:
   - component: {fileID: 102201453}
   - component: {fileID: 102201452}
   - component: {fileID: 102201451}
-  - component: {fileID: 102201450}
   - component: {fileID: 102201449}
   - component: {fileID: 102201448}
   - component: {fileID: 102201454}
@@ -183,20 +182,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!136 &102201450
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102201447}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &102201451
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -266,7 +251,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102201447}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -300,6 +285,7 @@ GameObject:
   - component: {fileID: 215755040}
   - component: {fileID: 215755039}
   - component: {fileID: 215755038}
+  - component: {fileID: 215755041}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -382,6 +368,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215755036}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &215755041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215755036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44c0ddc3d6c9bc4199db69fb79e7a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ball: {fileID: 3016609278730821155, guid: 998b69352ef285049b25cf2a024d6774, type: 3}
+  force: 5
 --- !u!1 &406660790
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 890557539}
   - component: {fileID: 890557538}
   - component: {fileID: 890557537}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -888,7 +888,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148985587}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.46, y: 2.85, z: 10.58}
+  m_LocalPosition: {x: 1.46, y: 2.85, z: -23.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1185,7 +1185,6 @@ GameObject:
   - component: {fileID: 1947013091}
   - component: {fileID: 1947013090}
   - component: {fileID: 1947013089}
-  - component: {fileID: 1947013093}
   m_Layer: 0
   m_Name: Canon
   m_TagString: Untagged
@@ -1268,19 +1267,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1947013093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947013088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a44c0ddc3d6c9bc4199db69fb79e7a22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ball: {fileID: 3016609278730821155, guid: 998b69352ef285049b25cf2a024d6774, type: 3}
 --- !u!1 &2014943397
 GameObject:
   m_ObjectHideFlags: 0

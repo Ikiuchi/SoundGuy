@@ -11,8 +11,12 @@ public class PnjController : MonoBehaviour
     public NavMeshAgent navmesh;
 
     public CapsuleCollider caps;
+    private bool dead = false;
 
     Rigidbody rb;
+
+    Vector3 impulse;
+    Vector3 posCollision;
 
     void Start()
     {
@@ -49,9 +53,20 @@ public class PnjController : MonoBehaviour
 
 	public void OnCollisionEnter(Collision collision)
 	{
-        navmesh.enabled = true;
-        rb.isKinematic = true;
-        rb.useGravity = false;
+        if (dead)
+            return;
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+		{
+            navmesh.enabled = true;
+            rb.isKinematic = true;
+            rb.useGravity = false;
+		}
+		else if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
+        {
+            impulse = collision.impulse;
+            Death();
+        }
     }
 
 	private void Jump()
@@ -70,5 +85,13 @@ public class PnjController : MonoBehaviour
         Debug.Log("Dash");
     }
 
+    private void Death()
+	{
+        dead = true;
+        navmesh.enabled = false;
+        rb.isKinematic = false;
+        rb.useGravity = true;
 
+        rb.AddForce(-impulse, ForceMode.Impulse);
+    }
 }
