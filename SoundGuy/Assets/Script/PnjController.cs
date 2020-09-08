@@ -5,12 +5,12 @@ using UnityEngine.AI;
 
 public class PnjController : MonoBehaviour
 {
-    public Transform player = null;
+    private Transform player = null;
     public float moveSpeed = 5.0f;
-    public bool follow = true;
-    public NavMeshAgent navmesh;
+    private bool follow = true;
+    private NavMeshAgent navmesh;
 
-    public CapsuleCollider caps;
+    private CapsuleCollider caps;
     private bool dead = false;
 
     Rigidbody rb;
@@ -20,6 +20,8 @@ public class PnjController : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         navmesh = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
 
