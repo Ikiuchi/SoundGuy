@@ -52,7 +52,6 @@ public class PnjController : MonoBehaviour
         navmesh.enabled = true;
         rb.isKinematic = true;
         rb.useGravity = false;
-        caps.isTrigger = true;
     }
 
 	private void Jump()
@@ -60,15 +59,16 @@ public class PnjController : MonoBehaviour
         navmesh.enabled = false;
         rb.isKinematic = false;
         rb.useGravity = true;
-        caps.isTrigger = false;
 
         Vector3 dir = player.position - transform.position;
 
-        rb.AddForce(dir.x * 2, Vector3.up.y * 100, dir.z * 2);
+        rb.AddForce(dir.x * 3, Vector3.up.y * 100, dir.z * 3);
     }
 
     private void Dash()
 	{
         Debug.Log("Dash");
     }
+
+
 }
