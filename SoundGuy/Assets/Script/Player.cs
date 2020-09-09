@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -116,6 +117,10 @@ public class Player : MonoBehaviour
                 currentMoveSpeed = moveSprintSpeed;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene("PauseScene");
+
         if (currentTimer > 0)
             currentTimer -= Time.deltaTime;
         else
