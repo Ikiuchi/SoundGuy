@@ -6,7 +6,7 @@ public class RotationPlatform : MonoBehaviour
 {
     public float rotationVelocity = 0f;
     public float rotationSpeed = 1f;
-    public Rigidbody rigidbody;
+    new public Rigidbody rigidbody;
 
     // Start is called before the first frame update
     void Start()

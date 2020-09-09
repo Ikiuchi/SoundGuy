@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     private CharacterController characterController;
 
     public float moveSpeed = 1f;
@@ -16,6 +15,8 @@ public class Player : MonoBehaviour
     private Vector3 gravity = new Vector3(0f, 9.81f, 0f);
     private Vector3 velocity;
 
+    public GameObject jumpTrigger;
+    public GameObject dashTrigger;
 
     // Start is called before the first frame update
     void Start()
@@ -38,11 +39,13 @@ public class Player : MonoBehaviour
             if(Input.GetKeyDown("space"))
             {
                  velocity = new Vector3(0f, jumpHeight, 0f) ;
+                CreateJumpTrigger();
             }
 
             if(Input.GetButtonDown("Dash"))
             {
                 velocity = transform.forward * dashPower;
+                CreateDashTrigger();
             }
         }
 
@@ -50,5 +53,14 @@ public class Player : MonoBehaviour
 
         characterController.Move(velocity * Time.deltaTime);
 
+    }
+
+    public void CreateJumpTrigger()
+	{
+        Instantiate(jumpTrigger, transform.position, transform.rotation);
+    }
+    public void CreateDashTrigger()
+    {
+        Instantiate(dashTrigger, transform.position, transform.rotation);
     }
 }
