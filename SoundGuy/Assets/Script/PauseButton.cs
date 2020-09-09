@@ -10,7 +10,6 @@ public class PauseButton : MonoBehaviour
     public GameObject settingsPanel;
 
 
-
     // Start is called before the first frame update
     void Start()
     {
