@@ -22,7 +22,8 @@ public class Player : MonoBehaviour
 
     private float GroundDistance = 0.2f;
 
-
+    public float fallingTimer = 2;
+    private float currentTimer;
 
     private Vector3 gravity = new Vector3(0f, 9.81f, 0f);
     private Vector3 movement;
@@ -44,61 +45,73 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(useDash)
+        if (rigidBody.freezeRotation)
         {
-            movement = Vector3.zero;
-            if (rigidBody.velocity == Vector3.zero)
-                useDash = false;
-            return;
-        }
-        movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-
-        movement.Normalize();
-
-        if(movement.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSmoothVelocity, rotationSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f); 
-        }
-        isGrounding = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
-
-        if(isGrounding)
-        {
-            if (Input.GetButtonDown("Jump"))
+            if (useDash)
             {
-                rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-                CreateJumpTrigger();
+                movement = Vector3.zero;
+                if (rigidBody.velocity == Vector3.zero)
+                    useDash = false;
+                return;
+            }
+            movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+            movement.Normalize();
+
+            if (movement.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSmoothVelocity, rotationSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
+            isGrounding = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
+
+            if (isGrounding)
+            {
+                if (Input.GetButtonDown("Jump"))
+                {
+                    rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+                    CreateJumpTrigger();
+                }
+            }
+
+            if (Input.GetButtonDown("Dash") && !useDash)
+            {
+                Vector3 dashDirection = movement;
+                if (movement == Vector3.zero)
+                    dashDirection = transform.forward;
+
+                rigidBody.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
+                useDash = true;
+                CreateDashTrigger();
             }
         }
 
-        if (Input.GetButtonDown("Dash") && !useDash)
-        {
-            Vector3 dashDirection = movement;
-            if (movement == Vector3.zero)
-                dashDirection = transform.forward;
-
-            rigidBody.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
-            useDash = true;
-            CreateDashTrigger();
-        }
+        if (currentTimer > 0)
+            currentTimer -= Time.deltaTime;
+        else
+            GetUp();
     }
 
     void FixedUpdate()
     {
-        rigidBody.MovePosition(transform.position + movement * currentMoveSpeed * Time.fixedDeltaTime);
+        if (rigidBody.freezeRotation)
+            rigidBody.MovePosition(transform.position + movement * currentMoveSpeed * Time.fixedDeltaTime);
     }
 
     public void CreateJumpTrigger()
 	{
-        Instantiate(jumpTrigger, transform.position, transform.rotation);
+        GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
+        g.transform.right = transform.forward;
     }
     public void CreateDashTrigger()
     {
-        Instantiate(dashTrigger, transform.position, transform.rotation);
+        GameObject g = Instantiate(dashTrigger, transform.position, Quaternion.identity);
+        g.transform.right = transform.forward;
+
     }
 
-	private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
             currentMoveSpeed = slowingSpeed;
@@ -107,5 +120,23 @@ public class Player : MonoBehaviour
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
             currentMoveSpeed = moveSpeed;
+    }
+
+	private void OnCollisionEnter(Collision collision)
+	{
+        if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
+            Fall();
+	}
+
+	private void Fall()
+	{
+        currentTimer = fallingTimer;
+        rigidBody.freezeRotation = false;
+	}
+
+    private void GetUp()
+	{
+        if (!rigidBody.freezeRotation)
+          rigidBody.freezeRotation = true;
     }
 }
