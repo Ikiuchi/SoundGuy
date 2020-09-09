@@ -7,6 +7,7 @@ public class PnjController : MonoBehaviour
 {
     private Transform player = null;
     public float moveSpeed = 5.0f;
+    public float slowingSpeed = 3.0f;
     private bool follow = true;
     private NavMeshAgent navmesh;
 
@@ -49,10 +50,19 @@ public class PnjController : MonoBehaviour
 
 	public void OnTriggerEnter(Collider other)
 	{
+        if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
+            navmesh.speed = slowingSpeed;
+
         if (other.gameObject.layer == LayerMask.NameToLayer("Jump"))
             Jump();
         else if (other.gameObject.layer == LayerMask.NameToLayer("Dash"))
             Dash();
+    }
+
+	private void OnTriggerExit(Collider other)
+	{
+        if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
+            navmesh.speed = moveSpeed;
     }
 
 	public void OnCollisionEnter(Collision collision)

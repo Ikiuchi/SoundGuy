@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     private CharacterController characterController;
 
     public float moveSpeed = 1f;
+    public float slowingSpeed = 0.5f;
+    private float currentMoveSpeed;
     public float turnSpeed = 1f;
     public float jumpHeight = 1f;
     public float dashPower = 1f;
@@ -22,6 +24,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+
+        currentMoveSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -30,7 +34,7 @@ public class Player : MonoBehaviour
 
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-        characterController.SimpleMove(movement * moveSpeed);
+        characterController.SimpleMove(movement * currentMoveSpeed);
 
         if(characterController.isGrounded)
         {
@@ -62,5 +66,16 @@ public class Player : MonoBehaviour
     public void CreateDashTrigger()
     {
         Instantiate(dashTrigger, transform.position, transform.rotation);
+    }
+
+	private void OnTriggerEnter(Collider other)
+	{
+        if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
+            currentMoveSpeed = slowingSpeed;
+    }
+	private void OnTriggerExit(Collider other)
+	{
+        if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
+            currentMoveSpeed = moveSpeed;
     }
 }
