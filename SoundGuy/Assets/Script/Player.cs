@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private CharacterController characterController;
+    private Rigidbody rigidBody;
 
     public float moveSpeed = 1f;
     public float slowingSpeed = 0.5f;
@@ -13,10 +14,21 @@ public class Player : MonoBehaviour
     public float jumpHeight = 1f;
     public float dashPower = 1f;
 
+    public float rotationSmoothTime = 0.1f; 
+    private float rotationSmoothVelocity = 0f; 
+
+    public Transform groundChecker;
+    public LayerMask ground;
+
+    private float GroundDistance = 0.2f;
+
+
 
     private Vector3 gravity = new Vector3(0f, 9.81f, 0f);
-    private Vector3 velocity;
+    private Vector3 movement;
 
+    private bool useDash = false;
+    private bool isGrounding;
     public GameObject jumpTrigger;
     public GameObject dashTrigger;
 
@@ -24,6 +36,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        rigidBody = GetComponent<Rigidbody>();
 
         currentMoveSpeed = moveSpeed;
     }
@@ -31,32 +44,49 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-
-        characterController.SimpleMove(movement * currentMoveSpeed);
-
-        if(characterController.isGrounded)
+        if(useDash)
         {
-            velocity = Vector3.zero;
+            movement = Vector3.zero;
+            if (rigidBody.velocity == Vector3.zero)
+                useDash = false;
+            return;
+        }
+        movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-            if(Input.GetKeyDown("space"))
+        movement.Normalize();
+
+        if(movement.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSmoothVelocity, rotationSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f); 
+        }
+        isGrounding = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
+
+        if(isGrounding)
+        {
+            if (Input.GetButtonDown("Jump"))
             {
-                 velocity = new Vector3(0f, jumpHeight, 0f) ;
+                rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
                 CreateJumpTrigger();
-            }
-
-            if(Input.GetButtonDown("Dash"))
-            {
-                velocity = transform.forward * dashPower;
-                CreateDashTrigger();
             }
         }
 
-        velocity -= gravity * Time.deltaTime;
+        if (Input.GetButtonDown("Dash") && !useDash)
+        {
+            Vector3 dashDirection = movement;
+            if (movement == Vector3.zero)
+                dashDirection = transform.forward;
 
-        characterController.Move(velocity * Time.deltaTime);
+            rigidBody.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
+            useDash = true;
+            CreateDashTrigger();
+        }
+    }
 
+    void FixedUpdate()
+    {
+        rigidBody.MovePosition(transform.position + movement * currentMoveSpeed * Time.fixedDeltaTime);
     }
 
     public void CreateJumpTrigger()
