@@ -9,7 +9,7 @@ public class PnjController : MonoBehaviour
     public float moveSpeed = 5.0f;
     public float slowingSpeed = 3.0f;
     public float jumpHeight = 2;
-    private bool follow = true;
+    private bool follow = false;
     private bool isDashing = false;
     private bool endDashing = false;
     private bool isGrounded = true;
