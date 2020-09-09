@@ -26,7 +26,7 @@ public class MovingPlateform : MonoBehaviour
 
     private void isGoingToRight()
     {
-        float distance = 0;
+        float distance;
         if (goingToRight)
             distance = Vector3.Distance(endingPoint, transform.position);
         else
