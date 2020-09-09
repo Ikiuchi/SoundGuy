@@ -1,5 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &608479941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 608479942}
+  - component: {fileID: 608479943}
+  m_Layer: 17
+  m_Name: MusicRadius
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &608479942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608479941}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5561938272894764653}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &608479943
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608479941}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1236988079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1236988080}
+  m_Layer: 15
+  m_Name: RallyPoint
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1236988080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236988079}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5561938272894764653}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5561938272800314081
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +86,7 @@ GameObject:
   - component: {fileID: 5561938272800314085}
   - component: {fileID: 5561938272800314084}
   - component: {fileID: 5561938272800314087}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,9 +182,9 @@ GameObject:
   - component: {fileID: 5561938272894764642}
   - component: {fileID: 5561938272894764641}
   - component: {fileID: 5561938272894764647}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,6 +203,8 @@ Transform:
   - {fileID: 5561938273205914027}
   - {fileID: 5561938274578569758}
   - {fileID: 5561938272800314086}
+  - {fileID: 608479942}
+  - {fileID: 1236988080}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -158,7 +234,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d9eda97bfcf843945a965487dce8dcea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,6 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  slowingSpeed: 3
   turnSpeed: 5
   jumpHeight: 2
   dashPower: 10
@@ -213,7 +290,8 @@ MonoBehaviour:
   groundChecker: {fileID: 5561938274578569758}
   ground:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1025
+  fallingTimer: 5
   jumpTrigger: {fileID: 5365451883430960464, guid: bdeabcda4163a0a44a77dc129ac55223,
     type: 3}
   dashTrigger: {fileID: 573947811588336925, guid: 732e577da697daa458d8c173d5709c0a,
@@ -244,7 +322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5561938273205914027}
   - component: {fileID: 5561938273205914024}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: ThirdPersonCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5561938273334501696}
   - component: {fileID: 5561938273334501697}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: MiddleRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +471,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561938273334501699}
-  m_LocalRotation: {x: 0.13505942, y: -8.719026e-16, z: 1.7869098e-17, w: 0.9908375}
+  m_LocalRotation: {x: 0.13505942, y: 8.719026e-16, z: -1.7869098e-17, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -455,7 +533,7 @@ GameObject:
   - component: {fileID: 5561938273367896222}
   - component: {fileID: 5561938273367896217}
   - component: {fileID: 5561938273367896216}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,7 +659,7 @@ GameObject:
   - component: {fileID: 5561938273588015328}
   - component: {fileID: 5561938273588015331}
   - component: {fileID: 5561938273588015330}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5561938273952137801}
   - component: {fileID: 5561938273952137806}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: BottomRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -719,7 +797,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561938273952137800}
-  m_LocalRotation: {x: 0.13505942, y: -8.719026e-16, z: 1.7869098e-17, w: 0.9908375}
+  m_LocalRotation: {x: 0.1350594, y: 0.00000001476463, z: -0.0000000020125421, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -779,7 +857,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5561938273969647072}
   - component: {fileID: 5561938273969647073}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: TopRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -793,7 +871,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561938273969647075}
-  m_LocalRotation: {x: 0.1350594, y: -0.00000001476463, z: 0.0000000020125421, w: 0.9908375}
+  m_LocalRotation: {x: 0.13505942, y: -8.719026e-16, z: 1.7869098e-17, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -852,7 +930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5561938274578569758}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: GroundCheker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -885,7 +963,7 @@ GameObject:
   - component: {fileID: 5561938274669452518}
   - component: {fileID: 5561938274669452513}
   - component: {fileID: 5561938274669452512}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

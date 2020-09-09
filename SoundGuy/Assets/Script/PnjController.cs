@@ -10,7 +10,7 @@ public class PnjController : MonoBehaviour
     public float slowingSpeed = 3.0f;
     public float dashPower = 10f;
     public float jumpHeight = 2;
-    private bool follow = true;
+    private bool follow = false;
     private NavMeshAgent navmesh;
 
     private CapsuleCollider caps;
@@ -20,6 +20,8 @@ public class PnjController : MonoBehaviour
 
     Vector3 impulse = Vector3.zero;
     public float impulseValue = 1;
+
+    private Follower f;
 
     void Start()
     {
@@ -31,6 +33,8 @@ public class PnjController : MonoBehaviour
         caps = GetComponent<CapsuleCollider>();
 
         navmesh.speed = moveSpeed;
+
+        f = FindObjectOfType<Follower>();
     }
 
     void Update()
@@ -47,10 +51,14 @@ public class PnjController : MonoBehaviour
 
     public void Charmed()
 	{
-        follow = true;
-	}
+        if (!follow)
+		{
+            follow = true;
+            f.followerDelegate();
+		}
+    }
 
-	public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
             navmesh.speed = slowingSpeed;
@@ -59,6 +67,9 @@ public class PnjController : MonoBehaviour
             Jump();
         else if (other.gameObject.layer == LayerMask.NameToLayer("Dash"))
             Dash();
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("CharmingMusic"))
+            Charmed();
     }
 
 	private void OnTriggerExit(Collider other)
@@ -125,4 +136,5 @@ public class PnjController : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
 }
