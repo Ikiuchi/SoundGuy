@@ -16,9 +16,6 @@ public class MovingPlateform : MonoBehaviour
     {
         startingPoint = transform.position;
         endingPoint = transform.position + new Vector3(translation.x, translation.y , 0);
-
-        Debug.Log(startingPoint);
-        Debug.Log(endingPoint);
     }
 
     private void Update()
