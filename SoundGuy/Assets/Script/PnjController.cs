@@ -8,13 +8,27 @@ public class PnjController : MonoBehaviour
     private Transform player = null;
     public float moveSpeed = 5.0f;
     public float slowingSpeed = 3.0f;
-    public float dashPower = 10f;
     public float jumpHeight = 2;
-    private bool follow = false;
+    private bool follow = true;
+    private bool isDashing = false;
+    private bool endDashing = false;
+    private bool isGrounded = true;
     private NavMeshAgent navmesh;
 
     private CapsuleCollider caps;
     private bool dead = false;
+
+    public float dashPower = 50f;
+    public float dashDistance = 5f;
+    [Range(0.01f, 0.2f)]
+    public float YDashDirection = 0.05f;
+    public float timerDash;
+    private float currentTimerDash;
+    private Vector3 lastPosDash;
+
+    public Transform groundChecker;
+    public LayerMask ground;
+    private float GroundDistance = 0.3f;
 
     Rigidbody rb;
 
@@ -39,6 +53,28 @@ public class PnjController : MonoBehaviour
 
     void Update()
     {
+
+        isGrounded = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
+        if (isDashing)
+        {
+            currentTimerDash += Time.deltaTime;
+            if ((lastPosDash - transform.position).magnitude >= dashDistance && !endDashing || currentTimerDash >= timerDash && !endDashing)
+            {
+                currentTimerDash = 0f;
+                rb.velocity = /*new Vector3(0f, rb.velocity.y, 0f) +*/ transform.forward * 10f;
+                endDashing = true;
+            }
+            if (isGrounded && endDashing)
+            {
+                navmesh.enabled = true;
+                rb.isKinematic = true;
+                rb.useGravity = false;
+                isDashing = false;
+                endDashing = false;
+            }
+            return;
+        }
+
         if (follow)
             Movement();
     }
@@ -72,24 +108,28 @@ public class PnjController : MonoBehaviour
             Charmed();
     }
 
-	private void OnTriggerExit(Collider other)
-	{
+    private void OnTriggerExit(Collider other)
+    {
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
             navmesh.speed = moveSpeed;
     }
 
+	public void OnCollisionExit(Collision collision)
+    {
+      
+    }
 	public void OnCollisionEnter(Collision collision)
 	{
         if (dead)
             return;
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-		{
+        {
             navmesh.enabled = true;
             rb.isKinematic = true;
             rb.useGravity = false;
-		}
-		if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
         {
             impulse = collision.impulse;
             Death();
@@ -114,10 +154,15 @@ public class PnjController : MonoBehaviour
         rb.isKinematic = false;
         rb.useGravity = true;
 
-        Vector3 dir = player.position - transform.position;
-        dir.Normalize();
+        Vector3 dashDirection = player.position - transform.position;
+        dashDirection.y = YDashDirection;
+        dashDirection.Normalize();
+        rb.AddForce(dashDirection.normalized * dashPower, ForceMode.VelocityChange);
+        currentTimerDash = 0f;
 
-        rb.AddForce(dir * dashPower / 2, ForceMode.VelocityChange);
+        lastPosDash = transform.position;
+        isDashing = true;
+
     }
 
     private void Death()

@@ -6,33 +6,30 @@ public class RotationPlatform : MonoBehaviour
 {
     public float rotationVelocity = 0f;
     public float rotationSpeed = 1f;
-    new public Rigidbody rigidbody;
+    private Rigidbody rigidbody;
+    private Quaternion firstRotationValue; 
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        firstRotationValue = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //transform.rotation = Quaternion.AngleAxis(rotationVelocity, Vector3.up);
-        rigidbody.MoveRotation(Quaternion.AngleAxis(rotationVelocity, Vector3.up));
+        //transform.rotation = (Quaternion.AngleAxis(rotationVelocity, transform.up)).normalized;
+        //transform.rotation *= firstRotationValue;
+
+        //rigidbody.MoveRotation((Quaternion.AngleAxis(rotationVelocity, transform.up).normalized * firstRotationValue.normalized).normalized);
+        transform.rotation = Quaternion.FromToRotation(transform.right, transform.forward);
 
         rotationVelocity += rotationSpeed * Time.deltaTime;
 
         if (rotationVelocity >= 360f)
             rotationVelocity = 0f;
+        if (rotationVelocity == 180)
+            rotationVelocity = 0f;
     }
-
-    /*private void OnTriggerEnter(Collider other)
-    {
-        other.transform.parent = transform;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        other.transform.parent = null;
-    }*/
 }
