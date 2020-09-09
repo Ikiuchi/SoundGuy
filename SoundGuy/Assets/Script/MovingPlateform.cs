@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MovingPlateform : MonoBehaviour
 {
-    public float maxDistance = 5;
     public float movingSpeed = 5;
+    public Vector2 translation = Vector2.zero;
 
     private Vector3 startingPoint;
     private Vector3 endingPoint;
@@ -15,7 +15,7 @@ public class MovingPlateform : MonoBehaviour
     private void Start()
     {
         startingPoint = transform.position;
-        endingPoint = transform.position + new Vector3(maxDistance, 0, 0);
+        endingPoint = transform.position + new Vector3(translation.x, translation.y , 0);
     }
 
     private void Update()
@@ -32,7 +32,7 @@ public class MovingPlateform : MonoBehaviour
         else
             distance = Vector3.Distance(startingPoint, transform.position);
 
-        if (distance <= 1)
+        if (distance <= 0.2)
             goingToRight = !goingToRight;
     }
 

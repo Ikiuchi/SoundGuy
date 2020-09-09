@@ -8,6 +8,8 @@ public class PnjController : MonoBehaviour
     private Transform player = null;
     public float moveSpeed = 5.0f;
     public float slowingSpeed = 3.0f;
+    public float dashPower = 10f;
+    public float jumpHeight = 2;
     private bool follow = true;
     private NavMeshAgent navmesh;
 
@@ -90,13 +92,21 @@ public class PnjController : MonoBehaviour
         rb.useGravity = true;
 
         Vector3 dir = player.position - transform.position;
-
-        rb.AddForce(dir.x * 3, Vector3.up.y * 100, dir.z * 3);
+        dir.Normalize();
+        dir.y = 1;
+        rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -1f * Physics.gravity.y), ForceMode.Impulse);
     }
 
     private void Dash()
 	{
-        Debug.Log("Dash");
+        navmesh.enabled = false;
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        Vector3 dir = player.position - transform.position;
+        dir.Normalize();
+
+        rb.AddForce(dir * dashPower / 2, ForceMode.VelocityChange);
     }
 
     private void Death()
