@@ -11,19 +11,20 @@ public class VictoryTrigger : MonoBehaviour
     private bool needToUpdate = false;
 
     private AudioSource victorySound;
-    public ParticleSystem[] victoryParticle = new ParticleSystem[3];
+    private ParticleSystem[] victoryParticle;
     GameObject child;
 
     public void Start()
     {
+        victoryParticle = new ParticleSystem[3];
         timer = 6f;
         victorySound = GetComponent<AudioSource>();
         victorySound.Stop();
         child = transform.GetChild(0).gameObject;
-        child.SetActive(false);
         victoryParticle[0] = child.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         victoryParticle[1] = child.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
         victoryParticle[2] = child.transform.GetChild(2).gameObject.GetComponent<ParticleSystem>();
+        child.SetActive(false);
     }
 
     public void Update()
@@ -44,11 +45,11 @@ public class VictoryTrigger : MonoBehaviour
         {
             player.End = true;
             victorySound.Play();
+            child.SetActive(true);
             for(int i = 0; i < 3; i++)
             {
                 victoryParticle[i].Play();
             }
-            child.SetActive(true);
             needToUpdate = true;
         }
     }

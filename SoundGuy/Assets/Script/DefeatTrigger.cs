@@ -7,7 +7,7 @@ public class DefeatTrigger : MonoBehaviour
 {
     public bool victory;
     private float timer;
-    private float currentTimer;
+    private float currentTimer = 0f;
     private bool needToUpdate = false;
 
     private AudioSource defeatSound;
@@ -35,6 +35,7 @@ public class DefeatTrigger : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player != null)
         {
+            Destroy(player.gameObject);
             defeatSound.Play();
             needToUpdate = true;
         }
