@@ -22,8 +22,8 @@ public class RotationPlatform : MonoBehaviour
         //transform.rotation = (Quaternion.AngleAxis(rotationVelocity, transform.up)).normalized;
         //transform.rotation *= firstRotationValue;
 
-        //rigidbody.MoveRotation((Quaternion.AngleAxis(rotationVelocity, transform.up).normalized * firstRotationValue.normalized).normalized);
-        transform.rotation = Quaternion.FromToRotation(transform.right, transform.forward);
+        rigidbody.MoveRotation((Quaternion.AngleAxis(rotationVelocity, transform.up) * firstRotationValue));
+        //transform.rotation = Quaternion.FromToRotation(transform.right, transform.forward);
 
         rotationVelocity += rotationSpeed * Time.deltaTime;
 
