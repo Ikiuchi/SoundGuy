@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VictoryScene.unity
     guid: 075bfc4da72c61d4486c76a2dfabdfc8
+  - enabled: 1
+    path: Assets/Scenes/TestElo.unity
+    guid: b4d155da8267ad74c98de37812d0b8aa
+  - enabled: 1
+    path: Assets/Scenes/DefeatScene.unity
+    guid: 86b3acc67870e0748a7b24910d1dd601
   m_configObjects: {}

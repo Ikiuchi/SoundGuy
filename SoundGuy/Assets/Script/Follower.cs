@@ -30,4 +30,10 @@ public class Follower : MonoBehaviour
         if (musicMgr)
             musicMgr.musicUpdate(nbFollower);
     }
+
+    private void OnDestroy()
+    {
+        if(SaveOptions.instance != null)
+            SaveOptions.instance.score = nbFollower;
+    }
 }

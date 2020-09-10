@@ -59,6 +59,8 @@ public class Player : MonoBehaviour
     public AxisPlayer axisXPlayer;
     public AxisPlayer axisYPlayer;
 
+    public bool End;
+
     public CinemachineFreeLook cam;
 
     // Start is called before the first frame update
@@ -77,15 +79,19 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
         charm = AnimationCharm;
-
-        UpdateXAxis(SaveOptions.instance.invertXAxis);
-        UpdateYAxis(SaveOptions.instance.invertYAxis);
+        if (SaveOptions.instance != null)
+        {
+            UpdateXAxis(SaveOptions.instance.invertXAxis);
+            UpdateYAxis(SaveOptions.instance.invertYAxis);
+        }
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (End)
+            return;
         if (animator.GetBool("NewSpirit"))
             NewSpiritTimer += Time.deltaTime;
 
@@ -196,6 +202,9 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (End)
+            return;
+
         if (rigidBody.freezeRotation && transform.parent != null)
             rigidBody.velocity = movement * ratio * currentMoveSpeed * 50 * Time.fixedDeltaTime;
         else if (rigidBody.freezeRotation)

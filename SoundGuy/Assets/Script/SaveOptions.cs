@@ -9,6 +9,8 @@ public class SaveOptions : MonoBehaviour
 	public bool invertXAxis = false;
     public bool invertYAxis = false;
 
+	public float score;
+
 	Player player;
 
 	private void Awake()
