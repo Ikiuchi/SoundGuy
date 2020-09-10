@@ -89,8 +89,7 @@ public class MovingPlateform : MonoBehaviour
         }
         else if (other.gameObject.GetComponent<PnjController>() != null)
         {
-            //pnj.ActiveNavMesh();
-            //other.transform.parent = null;
+            other.transform.parent = null;
         }
 
     }

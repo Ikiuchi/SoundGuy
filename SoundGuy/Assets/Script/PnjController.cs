@@ -17,6 +17,7 @@ public class PnjController : MonoBehaviour
 
     private CapsuleCollider caps;
     private bool dead = false;
+    private bool onPlateform = false;
 
     public float dashPower = 50f;
     public float dashDistance = 5f;
@@ -81,7 +82,9 @@ public class PnjController : MonoBehaviour
 
     public void Movement()
 	{
-        if (navmesh.enabled)
+        if (onPlateform)
+            MovementOnPlateform();
+        else if (navmesh.enabled)
             navmesh.destination = player.position;
     }
 
@@ -110,6 +113,7 @@ public class PnjController : MonoBehaviour
         rb.useGravity = false;
 
         rb.freezeRotation = false;
+        onPlateform = false;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -124,6 +128,9 @@ public class PnjController : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("CharmingMusic"))
             Charmed();
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("Water"))
+            onPlateform = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -145,6 +152,13 @@ public class PnjController : MonoBehaviour
             Death();
         }
     }
+
+    private void MovementOnPlateform()
+	{
+        Vector3 dir = player.position - transform.position;
+
+        transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+	}
 
 	private void Jump()
 	{
