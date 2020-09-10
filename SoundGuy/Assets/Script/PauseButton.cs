@@ -10,7 +10,8 @@ public class PauseButton : MonoBehaviour
     public GameObject pausePanel;
     public GameObject settingsPanel;
 
-    public GameObject buttonSelected;
+    public GameObject buttonSelectedSettings;
+    public GameObject buttonSelectedReturnToPause;
     public EventSystem eventSystem;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class PauseButton : MonoBehaviour
     {
         settingsPanel.SetActive(true);
         pausePanel.SetActive(false);
-        eventSystem.SetSelectedGameObject(buttonSelected.gameObject);
+        eventSystem.SetSelectedGameObject(buttonSelectedSettings.gameObject);
     }
 
     public void QuitLevel()
@@ -40,7 +41,8 @@ public class PauseButton : MonoBehaviour
     public void ReturnToPause()
     {
         pausePanel.SetActive(true);
-        settingsPanel.SetActive(false);
+        settingsPanel.SetActive(false); 
+        eventSystem.SetSelectedGameObject(buttonSelectedReturnToPause.gameObject);
     }
 
     public void AxisX(bool b)

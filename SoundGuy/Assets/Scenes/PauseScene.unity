@@ -2034,7 +2034,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 1841603119}
   settingsPanel: {fileID: 1505576806}
-  buttonSelected: {fileID: 618659522}
+  buttonSelectedSettings: {fileID: 618659522}
+  buttonSelectedReturnToPause: {fileID: 2051904595}
   eventSystem: {fileID: 613884260}
 --- !u!114 &1689936707
 MonoBehaviour:
