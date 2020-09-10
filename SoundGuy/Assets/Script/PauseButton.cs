@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -9,7 +10,9 @@ public class PauseButton : MonoBehaviour
     public GameObject pausePanel;
     public GameObject settingsPanel;
 
-
+    public GameObject buttonSelectedSettings;
+    public GameObject buttonSelectedReturnToPause;
+    public EventSystem eventSystem;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +23,14 @@ public class PauseButton : MonoBehaviour
     {
         pausePanel.SetActive(false);
 
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("TestElo");
     }
 
     public void Settings()
     {
         settingsPanel.SetActive(true);
         pausePanel.SetActive(false);
+        eventSystem.SetSelectedGameObject(buttonSelectedSettings.gameObject);
     }
 
     public void QuitLevel()
@@ -37,15 +41,18 @@ public class PauseButton : MonoBehaviour
     public void ReturnToPause()
     {
         pausePanel.SetActive(true);
-        settingsPanel.SetActive(false);
+        settingsPanel.SetActive(false); 
+        eventSystem.SetSelectedGameObject(buttonSelectedReturnToPause.gameObject);
     }
 
     public void AxisX(bool b)
 	{
-        SaveOptions.instance.UpdateXAxis(b);
+        if(SaveOptions.instance != null)
+            SaveOptions.instance.UpdateXAxis(b);
 }
     public void AxisY(bool b)
     {
-        SaveOptions.instance.UpdateYAxis(b);
+        if (SaveOptions.instance != null)
+            SaveOptions.instance.UpdateYAxis(b);
     }
 }

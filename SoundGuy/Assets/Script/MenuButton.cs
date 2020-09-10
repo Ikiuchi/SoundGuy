@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuButton : MonoBehaviour
 {
 	public GameObject panelButton;
 	public GameObject panelLevel;
 	public GameObject panelSettings;
+
+	public GameObject buttonSelectedSettings;
+	public GameObject buttonSelectedReturnToMenu;
+	public GameObject buttonSelectedLevel;
+	public EventSystem eventSystem;
 
 	public void Start()
 	{
@@ -22,6 +28,7 @@ public class MenuButton : MonoBehaviour
 		panelLevel.SetActive(!panelLevel.activeSelf);
 		panelButton.SetActive(!panelButton.activeSelf);
 		panelSettings.SetActive(false);
+		eventSystem.SetSelectedGameObject(buttonSelectedLevel.gameObject);
 	}
 
 	public void Options()
@@ -29,6 +36,17 @@ public class MenuButton : MonoBehaviour
 		panelLevel.SetActive(false);
 		panelButton.SetActive(false);
 		panelSettings.SetActive(true);
+		eventSystem.SetSelectedGameObject(buttonSelectedSettings.gameObject);
+	}
+
+
+	public void AxisX(bool b)
+	{
+		SaveOptions.instance.UpdateXAxis(b);
+	}
+	public void AxisY(bool b)
+	{
+		SaveOptions.instance.UpdateYAxis(b);
 	}
 
 	public void Return()
@@ -36,6 +54,7 @@ public class MenuButton : MonoBehaviour
 		panelLevel.SetActive(false);
 		panelButton.SetActive(true);
 		panelSettings.SetActive(false);
+		eventSystem.SetSelectedGameObject(buttonSelectedReturnToMenu.gameObject);
 	}
 
 	public void Quit()
@@ -49,6 +68,6 @@ public class MenuButton : MonoBehaviour
 
 	public void Level1()
 	{
-		SceneManager.LoadScene("GameScene");
+		SceneManager.LoadScene("TestElo");
 	}
 }

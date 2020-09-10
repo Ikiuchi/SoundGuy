@@ -9,6 +9,7 @@ public class Follower : MonoBehaviour
 
 	public delegate void FollowerDelegate();
 	public FollowerDelegate followerDelegate;
+	public FollowerDelegate followerMinus;
 
     public int nbFollower = 0;
 
@@ -17,6 +18,8 @@ public class Follower : MonoBehaviour
     void Start()
     {
         followerDelegate = UpdateFollower;
+        followerMinus = DecreaseFollower;
+
         textFollower.text = nbFollower.ToString();
 
         musicMgr = FindObjectOfType<MusicMgr>();
@@ -29,5 +32,20 @@ public class Follower : MonoBehaviour
 
         if (musicMgr)
             musicMgr.musicUpdate(nbFollower);
+    }
+
+    void DecreaseFollower()
+    {
+        nbFollower--;
+        textFollower.text = nbFollower.ToString();
+
+        if (musicMgr)
+            musicMgr.musicUpdate(nbFollower);
+    }
+
+    private void OnDestroy()
+    {
+        if(SaveOptions.instance != null)
+            SaveOptions.instance.score = nbFollower;
     }
 }
