@@ -135,7 +135,10 @@ public class PnjController : MonoBehaviour
             Charmed();
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Water"))
+        {
             onPlateform = true;
+            transform.position = other.transform.position + new Vector3(0f, 1f, 0f);
+        }
     }
 
     public void OnTriggerExit(Collider other)
