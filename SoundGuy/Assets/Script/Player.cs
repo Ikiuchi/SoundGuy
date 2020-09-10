@@ -11,10 +11,13 @@ public class Player : MonoBehaviour
 
     public float moveSpeed = 1f;
     public float moveSprintSpeed = 10f;
+    [Range(0,1)]
     public float slowingSpeed = 0.5f;
     private float currentMoveSpeed;
     public float turnSpeed = 1f;
     public float jumpHeight = 1f;
+
+    private float ratio = 1;
 
     public float dashPower = 1f;
     public float dashDistance = 5f;
@@ -41,6 +44,7 @@ public class Player : MonoBehaviour
 
     private bool useDash = false;
     private bool isGrounding;
+    private bool sprinting = false;
     public GameObject jumpTrigger;
     public GameObject dashTrigger;
 
@@ -58,7 +62,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentMoveSpeed = moveSpeed;
         if (rigidBody.freezeRotation)
         {
             if (useDash)
@@ -93,7 +96,10 @@ public class Player : MonoBehaviour
             {
                 if (Input.GetButtonDown("Jump"))
                 {
-                    rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+					if (transform.parent != null)
+						transform.parent = null;
+
+					rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
                     CreateJumpTrigger();
                 }
             }
@@ -115,6 +121,12 @@ public class Player : MonoBehaviour
             if (Input.GetAxis("Sprint") > 0f || Input.GetButton("Sprint"))
             {
                 currentMoveSpeed = moveSprintSpeed;
+                sprinting = true;
+            }
+            else if ((Input.GetAxis("Sprint") == 0f || Input.GetButtonDown("Sprint")) && sprinting)
+            {
+                currentMoveSpeed = moveSpeed;
+                sprinting = false;
             }
         }
 
@@ -130,9 +142,9 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if (rigidBody.freezeRotation && transform.parent != null)
-            rigidBody.velocity = movement * currentMoveSpeed * 50 * Time.fixedDeltaTime;
+            rigidBody.velocity = movement * ratio * currentMoveSpeed * 50 * Time.fixedDeltaTime;
         else if (rigidBody.freezeRotation)
-            rigidBody.MovePosition(transform.position + movement * currentMoveSpeed * Time.fixedDeltaTime);
+            rigidBody.MovePosition(transform.position + movement * ratio * currentMoveSpeed * Time.fixedDeltaTime);
     }
 
     public void CreateJumpTrigger()
@@ -150,15 +162,15 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
-            currentMoveSpeed = slowingSpeed;
+            ratio = slowingSpeed;
     }
 	private void OnTriggerExit(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
-            currentMoveSpeed = moveSpeed;
+            ratio = 1;
     }
 
-	private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
 	{
         if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
             Fall();
