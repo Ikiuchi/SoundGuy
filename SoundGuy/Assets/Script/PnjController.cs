@@ -82,8 +82,6 @@ public class PnjController : MonoBehaviour
 
     public void Movement()
 	{
-        Debug.Log("Charmed");
-
         if (onPlateform)
             MovementOnPlateform();
         else if (navmesh.enabled)

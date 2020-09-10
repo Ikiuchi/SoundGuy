@@ -149,9 +149,9 @@ public class Player : MonoBehaviour
 
     public void CreateJumpTrigger()
 	{
-        GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
-        g.transform.right = transform.forward;
-    }
+		//GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
+		//g.transform.right = transform.forward;
+	}
     public void CreateDashTrigger()
     {
         GameObject g = Instantiate(dashTrigger, transform.position, Quaternion.identity);
