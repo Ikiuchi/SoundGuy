@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -9,7 +10,8 @@ public class PauseButton : MonoBehaviour
     public GameObject pausePanel;
     public GameObject settingsPanel;
 
-
+    public GameObject buttonSelected;
+    public EventSystem eventSystem;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,7 @@ public class PauseButton : MonoBehaviour
     {
         settingsPanel.SetActive(true);
         pausePanel.SetActive(false);
+        eventSystem.SetSelectedGameObject(buttonSelected.gameObject);
     }
 
     public void QuitLevel()
