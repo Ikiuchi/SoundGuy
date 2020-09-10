@@ -176,6 +176,7 @@ MonoBehaviour:
     type: 3}
   dashTrigger: {fileID: 573947811588336925, guid: 732e577da697daa458d8c173d5709c0a,
     type: 3}
+  cam: {fileID: 5561938273205914024}
 --- !u!54 &5561938272894764647
 Rigidbody:
   m_ObjectHideFlags: 0
