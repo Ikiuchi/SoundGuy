@@ -6,8 +6,10 @@ public class SaveOptions : MonoBehaviour
 {
 	public static SaveOptions instance;
 
-	private bool invertXAxis = false;
-    private bool invertYAxis = false;
+	public bool invertXAxis = false;
+    public bool invertYAxis = false;
+
+	public float score;
 
 	Player player;
 
@@ -29,7 +31,8 @@ public class SaveOptions : MonoBehaviour
 
 		invertXAxis = b;
 
-		player.UpdateXAxis(invertXAxis);
+		if (player != null)
+			player.UpdateXAxis(invertXAxis);
 	}
 
 	public void UpdateYAxis(bool b)
@@ -38,7 +41,7 @@ public class SaveOptions : MonoBehaviour
 			player = FindObjectOfType<Player>();
 
 		invertYAxis = b;
-
-		player.UpdateXAxis(invertYAxis);
+		if (player != null)
+			player.UpdateYAxis(invertYAxis);
 	}
 }
