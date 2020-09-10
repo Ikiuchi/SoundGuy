@@ -20,7 +20,7 @@ public class PauseButton : MonoBehaviour
     {
         pausePanel.SetActive(false);
 
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("TestElo");
     }
 
     public void Settings()
@@ -42,10 +42,12 @@ public class PauseButton : MonoBehaviour
 
     public void AxisX(bool b)
 	{
-        SaveOptions.instance.UpdateXAxis(b);
+        if(SaveOptions.instance != null)
+            SaveOptions.instance.UpdateXAxis(b);
 }
     public void AxisY(bool b)
     {
-        SaveOptions.instance.UpdateYAxis(b);
+        if (SaveOptions.instance != null)
+            SaveOptions.instance.UpdateYAxis(b);
     }
 }

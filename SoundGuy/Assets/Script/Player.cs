@@ -77,6 +77,10 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
         charm = AnimationCharm;
+
+        UpdateXAxis(SaveOptions.instance.invertXAxis);
+        UpdateYAxis(SaveOptions.instance.invertYAxis);
+        
     }
 
     // Update is called once per frame

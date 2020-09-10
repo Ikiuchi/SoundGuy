@@ -11,6 +11,8 @@ public class MenuButton : MonoBehaviour
 	public GameObject panelLevel;
 	public GameObject panelSettings;
 
+	public Button b;
+
 	public void Start()
 	{
 		panelLevel.SetActive(false);
@@ -31,6 +33,16 @@ public class MenuButton : MonoBehaviour
 		panelSettings.SetActive(true);
 	}
 
+	
+	public void AxisX(bool b)
+	{
+		SaveOptions.instance.UpdateXAxis(b);
+	}
+	public void AxisY(bool b)
+	{
+		SaveOptions.instance.UpdateYAxis(b);
+	}
+
 	public void Return()
 	{
 		panelLevel.SetActive(false);
@@ -49,6 +61,6 @@ public class MenuButton : MonoBehaviour
 
 	public void Level1()
 	{
-		SceneManager.LoadScene("GameScene");
+		SceneManager.LoadScene("TestElo");
 	}
 }
