@@ -18,8 +18,8 @@ public class MusicMgr : MonoBehaviour
 	{
 		musicUpdate += CheckLevel;
 
-		//foreach (AudioSource a in audio)
-		//	a.Play();
+		foreach (AudioSource a in audio)
+			a.Play();
 		
 		SwapLevel(0);
 	}
@@ -45,34 +45,34 @@ public class MusicMgr : MonoBehaviour
 		switch (level)
 		{
 			case 0:
-				//audio[1].mute = true;
-				//audio[2].mute = true;
-				//audio[3].mute = true;
-				//audio[4].mute = true;
+				audio[1].mute = true;
+				audio[2].mute = true;
+				audio[3].mute = true;
+				audio[4].mute = true;
 				break;
 			case 1:
-				//audio[1].mute = false;
-				//audio[2].mute = true;
-				//audio[3].mute = true;
-				//audio[4].mute = true;
+				audio[1].mute = false;
+				audio[2].mute = true;
+				audio[3].mute = true;
+				audio[4].mute = true;
 				break;
 			case 2:
-				//audio[1].mute = false;
-				//audio[2].mute = false;
-				//audio[3].mute = true;
-				//audio[4].mute = true;
+				audio[1].mute = false;
+				audio[2].mute = false;
+				audio[3].mute = true;
+				audio[4].mute = true;
 				break;
 			case 3:
-				//audio[1].mute = false;
-				//audio[2].mute = false;
-				//audio[3].mute = false;
-				//audio[4].mute = true;
+				audio[1].mute = false;
+				audio[2].mute = false;
+				audio[3].mute = false;
+				audio[4].mute = true;
 				break;
 			case 4:
-				//audio[1].mute = false;
-				//audio[2].mute = false;
-				//audio[3].mute = false;
-				//audio[4].mute = false;
+				audio[1].mute = false;
+				audio[2].mute = false;
+				audio[3].mute = false;
+				audio[4].mute = false;
 				break;
 			default:
 				SwapLevel(0);

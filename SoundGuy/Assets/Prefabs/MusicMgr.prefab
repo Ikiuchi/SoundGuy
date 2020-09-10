@@ -304,13 +304,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dab451044d13f34492785284537a8e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0000000002000000040000000600000008000000
+  level: 000000000300000006000000090000000d000000
   audio:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4326436963543953783}
+  - {fileID: 3548057455544348444}
+  - {fileID: 3548057455544348444}
+  - {fileID: 1755811254521831772}
+  - {fileID: 2079088071634062777}
+  currentLvl: 0
 --- !u!1 &5571682574360436885
 GameObject:
   m_ObjectHideFlags: 0
