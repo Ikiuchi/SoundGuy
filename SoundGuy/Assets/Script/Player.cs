@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,6 +49,12 @@ public class Player : MonoBehaviour
     public GameObject jumpTrigger;
     public GameObject dashTrigger;
 
+    public delegate void AxisPlayer(bool b);
+    public AxisPlayer axisXPlayer;
+    public AxisPlayer axisYPlayer;
+
+    public CinemachineFreeLook cam;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +64,9 @@ public class Player : MonoBehaviour
         mainCamera = Camera.main.transform;
 
         currentMoveSpeed = moveSpeed;
+
+        axisXPlayer = UpdateXAxis;
+        axisYPlayer = UpdateYAxis;
     }
 
     // Update is called once per frame
@@ -149,9 +159,9 @@ public class Player : MonoBehaviour
 
     public void CreateJumpTrigger()
 	{
-		//GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
-		//g.transform.right = transform.forward;
-	}
+        GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
+        g.transform.right = transform.forward;
+    }
     public void CreateDashTrigger()
     {
         GameObject g = Instantiate(dashTrigger, transform.position, Quaternion.identity);
@@ -186,5 +196,16 @@ public class Player : MonoBehaviour
 	{
         if (!rigidBody.freezeRotation)
           rigidBody.freezeRotation = true;
+    }
+
+    public void UpdateXAxis(bool b)
+	{
+        cam.m_XAxis.m_InvertInput = b;
+        Debug.Log("m_XAxis invert");
+    }
+    public void UpdateYAxis(bool b)
+    {
+        cam.m_YAxis.m_InvertInput = b;
+        Debug.Log("m_YAxis invert");
     }
 }
