@@ -12,6 +12,8 @@ public class MusicMgr : MonoBehaviour
 
 	public AudioSource[] audio = new AudioSource[5];
 
+	public AudioSource LevelUpSound;
+
 	public int currentLvl = 0;
 
 	private void Start()
@@ -36,10 +38,15 @@ public class MusicMgr : MonoBehaviour
 			SwapLevel(1);
 		else if (currentFollower >= level[0])
 			SwapLevel(0);
+
+
 	}
 
 	private void SwapLevel(int level)
 	{
+		if (level > currentLvl)
+			LevelUpSound.Play();
+
 		currentLvl = level;
 
 		switch (level)
