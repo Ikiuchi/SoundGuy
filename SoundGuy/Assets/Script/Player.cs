@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     public float moveSpeed = 1f;
     public float moveSprintSpeed = 10f;
-    [Range(0,1)]
+    [Range(0, 1)]
     public float slowingSpeed = 0.5f;
     private float currentMoveSpeed;
     public float turnSpeed = 1f;
@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
     private float currentTimerDash;
     private Vector3 lastPosDash;
 
-    public float rotationSmoothTime = 0.1f; 
-    private float rotationSmoothVelocity = 0f; 
+    public float rotationSmoothTime = 0.1f;
+    private float rotationSmoothVelocity = 0f;
 
     public Transform groundChecker;
     public LayerMask ground;
@@ -63,6 +63,9 @@ public class Player : MonoBehaviour
     public AxisPlayer axisYPlayer;
 
     public CinemachineFreeLook cam;
+    MusicMgr music;
+    public float[] fieldOfViewLvl = new float[5] { 40, 44, 48, 52, 64 };
+    private float currentLvl = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -80,6 +83,8 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
         charm = AnimationCharm;
+        music = FindObjectOfType<MusicMgr>();
+        music.musicUpdate += CameraFieldOfView;
     }
 
     // Update is called once per frame
@@ -91,13 +96,9 @@ public class Player : MonoBehaviour
         if(NewSpiritTimer >= 1f)
             animator.SetBool("NewSpirit", false);
         if (movement == Vector3.zero)
-        {
             animator.SetBool("Moving", false);
-        }
         else
-        {
             animator.SetBool("Moving", true);
-        }
 
         currentMoveSpeed = moveSpeed;
         if (rigidBody.freezeRotation)
@@ -199,6 +200,31 @@ public class Player : MonoBehaviour
             rigidBody.velocity = movement * ratio * currentMoveSpeed * 50 * Time.fixedDeltaTime;
         else if (rigidBody.freezeRotation)
             rigidBody.MovePosition(transform.position + movement * ratio * currentMoveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void CameraFieldOfView(int level)
+    {
+        if (currentLvl != music.currentLvl)
+           StartCoroutine(LerpFieldOfView(music.currentLvl));
+    }
+
+    private IEnumerator LerpFieldOfView(int level)
+    {
+        float elapsedTime = 0;
+        float waitTime = 1f;
+        float currentPos = cam.m_Lens.FieldOfView;
+
+        while (elapsedTime < waitTime)
+        {
+            cam.m_Lens.FieldOfView = Mathf.Lerp(currentPos, fieldOfViewLvl[level], (elapsedTime / waitTime));
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        // Make sure we got there
+        currentLvl = level;
+        cam.m_Lens.FieldOfView = fieldOfViewLvl[level];
+        yield return null;
     }
 
     public void AnimationCharm()
