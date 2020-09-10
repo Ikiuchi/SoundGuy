@@ -116,11 +116,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   slowingSpeed: 3
-  jumpHeight: 3.2
+  jumpHeight: 2
   dashPower: 13
   dashDistance: 10
   YDashDirection: 0.05
-  timerDash: 0
+  timerDash: 1
   groundChecker: {fileID: 234654750691021441}
   ground:
     serializedVersion: 2

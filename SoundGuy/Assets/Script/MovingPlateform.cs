@@ -63,26 +63,34 @@ public class MovingPlateform : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+	public void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.GetComponent<Player>() != null)
+        PnjController pnj = other.gameObject.GetComponent<PnjController>();
+
+        if (other.gameObject.GetComponent<Player>() != null)
         {
-            collision.transform.parent = transform;
+            other.transform.parent = transform;
         }
-        else if (collision.gameObject.GetComponent<PnjController>() != null)
+        else if (pnj != null)
         {
-            collision.transform.parent = transform;
+            pnj.UnActiveNavMesh();
+            other.transform.position = transform.position + Vector3.up;
+            other.transform.parent = transform;
         }
     }
-    public void OnCollisionExit(Collision collision)
+
+    public void OnTriggerExit(Collider other)
     {
-        if (collision.gameObject.GetComponent<Player>() != null)
+        PnjController pnj = other.gameObject.GetComponent<PnjController>();
+
+        if (other.gameObject.GetComponent<Player>() != null)
         {
-            collision.transform.parent = null;
+            other.transform.parent = null;
         }
-        else if (collision.gameObject.GetComponent<PnjController>() != null)
+        else if (other.gameObject.GetComponent<PnjController>() != null)
         {
-            collision.transform.parent = null;
+            //pnj.ActiveNavMesh();
+            //other.transform.parent = null;
         }
 
     }

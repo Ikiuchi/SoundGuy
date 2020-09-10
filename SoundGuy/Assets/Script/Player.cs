@@ -129,7 +129,9 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (rigidBody.freezeRotation)
+        if (rigidBody.freezeRotation && transform.parent != null)
+            rigidBody.velocity = movement * currentMoveSpeed * 50 * Time.fixedDeltaTime;
+        else if (rigidBody.freezeRotation)
             rigidBody.MovePosition(transform.position + movement * currentMoveSpeed * Time.fixedDeltaTime);
     }
 
