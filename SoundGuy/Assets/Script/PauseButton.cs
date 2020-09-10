@@ -39,13 +39,4 @@ public class PauseButton : MonoBehaviour
         pausePanel.SetActive(true);
         settingsPanel.SetActive(false);
     }
-
-    public void AxisX(bool b)
-	{
-        SaveOptions.instance.UpdateXAxis(b);
-}
-    public void AxisY(bool b)
-    {
-        SaveOptions.instance.UpdateYAxis(b);
-    }
 }
