@@ -52,11 +52,12 @@ public class PnjController : MonoBehaviour
         navmesh.speed = moveSpeed;
 
         f = FindObjectOfType<Follower>();
+
+        pl.playerJump = Jump;
     }
 
     void Update()
     {
-
         isGrounded = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
         if (isDashing)
         {
@@ -165,12 +166,17 @@ public class PnjController : MonoBehaviour
 
 	private void Jump()
 	{
+        if (follow)
+		{
+
+        Debug.Log("jump");
         UnActiveNavMesh();
 
         Vector3 dir = player.position - transform.position;
         dir.Normalize();
         dir.y = 1;
         rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -1f * Physics.gravity.y), ForceMode.Impulse);
+		}
     }
 
     private void Dash()
@@ -187,7 +193,6 @@ public class PnjController : MonoBehaviour
 
         lastPosDash = transform.position;
         isDashing = true;
-
     }
 
     private void Death()

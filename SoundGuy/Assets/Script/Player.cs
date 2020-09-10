@@ -55,6 +55,9 @@ public class Player : MonoBehaviour
     public delegate void Charm();
     public Charm charm;
 
+    public delegate void PlayerJump();
+    public PlayerJump playerJump;
+
     public delegate void AxisPlayer(bool b);
     public AxisPlayer axisXPlayer;
     public AxisPlayer axisYPlayer;
@@ -211,8 +214,9 @@ public class Player : MonoBehaviour
 
     public void CreateJumpTrigger()
 	{
-        GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
-        g.transform.right = transform.forward;
+        playerJump();
+        //GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
+        //g.transform.right = transform.forward;
     }
     public void CreateDashTrigger()
     {
