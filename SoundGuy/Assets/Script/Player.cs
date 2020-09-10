@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
 {
     private CharacterController characterController;
     private Rigidbody rigidBody;
     private Transform mainCamera;
+
+    private Animator animator;
 
     public float moveSpeed = 1f;
     public float moveSprintSpeed = 10f;
@@ -20,7 +23,7 @@ public class Player : MonoBehaviour
     public float dashDistance = 5f;
     [Range(0.01f, 0.2f)]
     public float YDashDirection = 0.05f;
-    //public float dashDirection = 20f;
+    private float NewSpiritTimer;
     public float timerDash;
     private float currentTimerDash;
     private Vector3 lastPosDash;
@@ -41,8 +44,12 @@ public class Player : MonoBehaviour
 
     private bool useDash = false;
     private bool isGrounding;
+    private float ratio = 1f;
     public GameObject jumpTrigger;
     public GameObject dashTrigger;
+
+    public delegate void Charm();
+    public Charm charm;
 
     // Start is called before the first frame update
     void Start()
@@ -53,11 +60,29 @@ public class Player : MonoBehaviour
         mainCamera = Camera.main.transform;
 
         currentMoveSpeed = moveSpeed;
+
+        animator = GetComponent<Animator>();
+
+        charm = AnimationCharm;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (animator.GetBool("NewSpirit"))
+            NewSpiritTimer += Time.deltaTime;
+
+        if(NewSpiritTimer >= 1f)
+            animator.SetBool("NewSpirit", false);
+        if (movement == Vector3.zero)
+        {
+            animator.SetBool("Moving", false);
+        }
+        else
+        {
+            animator.SetBool("Moving", true);
+        }
+
         currentMoveSpeed = moveSpeed;
         if (rigidBody.freezeRotation)
         {
@@ -94,8 +119,14 @@ public class Player : MonoBehaviour
                 if (Input.GetButtonDown("Jump"))
                 {
                     rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+                    animator.SetBool("Falling", true);
                     CreateJumpTrigger();
                 }
+                animator.SetBool("Falling", false);
+            }
+            else if(!animator.GetBool("Falling"))
+            {
+                animator.SetBool("Falling", true);
             }
 
             if (Input.GetButtonDown("Dash") && !useDash)
@@ -118,6 +149,17 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (currentMoveSpeed == moveSpeed * ratio)
+        {
+            animator.SetBool("Walk", true);
+            animator.SetBool("Sprint", false);
+        }
+        else if (currentMoveSpeed == moveSprintSpeed * ratio)
+        {
+            animator.SetBool("Walk", false);
+            animator.SetBool("Sprint", true);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene("PauseScene");
 
@@ -133,6 +175,17 @@ public class Player : MonoBehaviour
             rigidBody.velocity = movement * currentMoveSpeed * 50 * Time.fixedDeltaTime;
         else if (rigidBody.freezeRotation)
             rigidBody.MovePosition(transform.position + movement * currentMoveSpeed * Time.fixedDeltaTime);
+    }
+
+    public void AnimationCharm()
+    {
+        animator.SetBool("NewSpirit", true);
+    }
+    
+    public void CharmEnd()
+    {
+        animator.SetBool("NewSpirit", false);
+        NewSpiritTimer = 0f;
     }
 
     public void CreateJumpTrigger()
@@ -161,7 +214,10 @@ public class Player : MonoBehaviour
 	private void OnCollisionEnter(Collision collision)
 	{
         if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
+        {
             Fall();
+            animator.SetBool("Hit", true);
+        }
 	}
 
 	private void Fall()
@@ -173,6 +229,9 @@ public class Player : MonoBehaviour
     private void GetUp()
 	{
         if (!rigidBody.freezeRotation)
-          rigidBody.freezeRotation = true;
+        {
+            rigidBody.freezeRotation = true;
+            animator.SetBool("Hit", false);
+        }
     }
 }

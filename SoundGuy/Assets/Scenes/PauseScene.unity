@@ -1883,7 +1883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 1841603119}
-  settingsPanel: {fileID: 0}
+  settingsPanel: {fileID: 1578178152}
 --- !u!114 &1689936707
 MonoBehaviour:
   m_ObjectHideFlags: 0
