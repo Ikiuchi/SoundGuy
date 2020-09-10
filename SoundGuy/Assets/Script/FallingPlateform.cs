@@ -36,7 +36,7 @@ public class FallingPlateform : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("PlayerCollision"))
             updateTimer = true;
     }
 
