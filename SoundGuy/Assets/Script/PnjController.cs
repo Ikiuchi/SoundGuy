@@ -93,11 +93,20 @@ public class PnjController : MonoBehaviour
 
     public void Charmed()
 	{
-        if (!follow)
+        if (!follow && !dead)
 		{
             follow = true;
             f.followerDelegate();
             pl.AnimationCharm();
+        }
+    }
+
+    public void UnCharmed()
+    {
+        if (follow)
+        {
+            follow = false;
+            f.followerMinus();
         }
     }
 
@@ -197,6 +206,7 @@ public class PnjController : MonoBehaviour
 
     private void Death()
 	{
+        UnCharmed();
         dead = true;
         navmesh.enabled = false;
         rb.isKinematic = false;
