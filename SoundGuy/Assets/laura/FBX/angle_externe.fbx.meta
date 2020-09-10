@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 9e7a2f2b8c1e9c841b16fe94fdc22e81
+guid: ad41b73583a2c084d93dc62a6510a2f2
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: trottoir1
-    second: {fileID: 2100000, guid: 9b778772815f1dc459bc43e26010fb23, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
