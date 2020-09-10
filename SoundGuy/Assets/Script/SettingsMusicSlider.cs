@@ -13,33 +13,34 @@ public class SettingsMusicSlider : MonoBehaviour
     public Text sfxVolumeText;
     public Slider sfxVolumeSlider;
 
+    private float valuePurcentage = 40;
+
     private void Awake()
     {
         float volume;
         if (audioMixer.GetFloat("musicVolume", out volume))
         {
-            Debug.Log((volume + 80) / 80 * 100);
-            musicVolumeText.text = ((int)(volume + 80) / 80 * 100).ToString();
+            musicVolumeText.text = ((int)((volume + valuePurcentage) / valuePurcentage * 100)).ToString();
 
-            musicVolumeSlider.SetValueWithoutNotify(volume);
+            musicVolumeSlider.SetValueWithoutNotify((int)volume);
         }
         if (audioMixer.GetFloat("sfxVolume", out volume))
         {
-            sfxVolumeText.text = ((volume + 80) / 80 * 100).ToString();
-            sfxVolumeSlider.SetValueWithoutNotify(volume);
+            sfxVolumeText.text = ((int)((volume + valuePurcentage) / valuePurcentage * 100)).ToString();
+            sfxVolumeSlider.SetValueWithoutNotify((int)volume);
         }
     }
 
     public void SetMusicVolume(float musicVolume)
     {
-        audioMixer.SetFloat("musicVolume", musicVolume);
+        audioMixer.SetFloat("musicVolume", (int)musicVolume);
 
-        musicVolumeText.text = ((musicVolume + 80) / 80 * 100).ToString();
+        musicVolumeText.text = ((int)((musicVolume + valuePurcentage) / valuePurcentage * 100)).ToString();
     }
 
     public void SetSFXVolume(float SFXVolume)
     {
-        audioMixer.SetFloat("sfxVolume", SFXVolume);
-        sfxVolumeText.text = ((SFXVolume + 80) / 80 * 100).ToString();
+        audioMixer.SetFloat("sfxVolume", (int)SFXVolume);
+        sfxVolumeText.text = ((int)((SFXVolume + valuePurcentage) / valuePurcentage * 100)).ToString();
     }
 }

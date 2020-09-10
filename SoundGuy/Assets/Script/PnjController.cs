@@ -37,10 +37,12 @@ public class PnjController : MonoBehaviour
     public float impulseValue = 1;
 
     private Follower f;
+    private Player pl;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        pl = FindObjectOfType<Player>();
 
         navmesh = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
@@ -96,7 +98,8 @@ public class PnjController : MonoBehaviour
 		{
             follow = true;
             f.followerDelegate();
-		}
+            pl.AnimationCharm();
+        }
     }
 
     public void UnActiveNavMesh()
@@ -135,7 +138,7 @@ public class PnjController : MonoBehaviour
             onPlateform = true;
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
             navmesh.speed = moveSpeed;
