@@ -19,6 +19,8 @@ public class PauseButton : MonoBehaviour
     public void Resume()
     {
         pausePanel.SetActive(false);
+
+        SceneManager.LoadScene("GameScene");
     }
 
     public void Settings()
@@ -30,11 +32,6 @@ public class PauseButton : MonoBehaviour
     public void QuitLevel()
     {
         SceneManager.LoadScene("MenuScene");
-    }
-
-    public void MusicSLider()
-    {
-
     }
 
     public void ReturnToPause()

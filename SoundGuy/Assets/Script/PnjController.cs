@@ -94,6 +94,24 @@ public class PnjController : MonoBehaviour
 		}
     }
 
+    public void UnActiveNavMesh()
+	{
+        navmesh.enabled = false;
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        rb.freezeRotation = true;
+    }
+
+    public void ActiveNavMesh()
+    {
+        navmesh.enabled = true;
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
+        rb.freezeRotation = false;
+    }
+
     public void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
@@ -114,21 +132,13 @@ public class PnjController : MonoBehaviour
             navmesh.speed = moveSpeed;
     }
 
-	public void OnCollisionExit(Collision collision)
-    {
-      
-    }
 	public void OnCollisionEnter(Collision collision)
 	{
         if (dead)
             return;
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            navmesh.enabled = true;
-            rb.isKinematic = true;
-            rb.useGravity = false;
-        }
+            ActiveNavMesh();
         if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
         {
             impulse = collision.impulse;
@@ -138,9 +148,7 @@ public class PnjController : MonoBehaviour
 
 	private void Jump()
 	{
-        navmesh.enabled = false;
-        rb.isKinematic = false;
-        rb.useGravity = true;
+        UnActiveNavMesh();
 
         Vector3 dir = player.position - transform.position;
         dir.Normalize();
@@ -171,6 +179,7 @@ public class PnjController : MonoBehaviour
         navmesh.enabled = false;
         rb.isKinematic = false;
         rb.useGravity = true;
+        rb.freezeRotation = false;
 
         rb.AddForce(-impulse * impulseValue, ForceMode.Impulse);
 

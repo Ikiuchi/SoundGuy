@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angle: 60
-  speed: 2
+  speed: 0.85
   startTime: 5
 --- !u!54 &107547831
 Rigidbody:
