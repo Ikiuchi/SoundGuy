@@ -150,7 +150,10 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.layer == LayerMask.NameToLayer("Slow"))
+        {
             currentMoveSpeed = slowingSpeed;
+            Debug.Log(currentMoveSpeed);
+        }
     }
 	private void OnTriggerExit(Collider other)
 	{
