@@ -154,7 +154,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 369df5b478bbc6c4ea7126b3c7ec9648, type: 2}
+  - {fileID: 2100000, guid: bb657b288ed03a047a30ac4598204ee4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -218,4 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingTimer: 1.5
   destroyTimer: 0.75
-  materials: []
+  materials:
+  - {fileID: 2100000, guid: 02e1c750007cbfc40bc3db775b587a7e, type: 2}
+  - {fileID: 2100000, guid: 9115ff3c66d019d4cb251cfd87b00efb, type: 2}
+  - {fileID: 2100000, guid: 3da60ec68ec5a2848898f119cad81f20, type: 2}
