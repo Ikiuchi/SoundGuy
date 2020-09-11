@@ -15,6 +15,8 @@ public class Follower : MonoBehaviour
 
     MusicMgr musicMgr;
 
+    private AudioSource newFollowerSound;
+
     void Start()
     {
         followerDelegate = UpdateFollower;
@@ -23,10 +25,13 @@ public class Follower : MonoBehaviour
         textFollower.text = nbFollower.ToString();
 
         musicMgr = FindObjectOfType<MusicMgr>();
+
+        newFollowerSound = GetComponent<AudioSource>();
     }
 
     void UpdateFollower()
     {
+        newFollowerSound.Play();
         nbFollower++;
         textFollower.text = nbFollower.ToString();
 
