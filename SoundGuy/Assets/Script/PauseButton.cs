@@ -13,6 +13,10 @@ public class PauseButton : MonoBehaviour
     public GameObject buttonSelectedSettings;
     public GameObject buttonSelectedReturnToPause;
     public EventSystem eventSystem;
+
+    public Toggle inversX;
+    public Toggle inversY;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +26,15 @@ public class PauseButton : MonoBehaviour
     public void Resume()
     {
         pausePanel.SetActive(false);
-
-        SceneManager.LoadScene("TestElo");
+        Time.timeScale = 1;
+        SceneManager.UnloadSceneAsync("PauseScene");
     }
 
     public void Settings()
     {
+        inversX.isOn = SaveOptions.instance.invertXAxis;
+        inversY.isOn = SaveOptions.instance.invertYAxis;
+
         settingsPanel.SetActive(true);
         pausePanel.SetActive(false);
         eventSystem.SetSelectedGameObject(buttonSelectedSettings.gameObject);
@@ -46,13 +53,11 @@ public class PauseButton : MonoBehaviour
     }
 
     public void AxisX(bool b)
-	{
-        if(SaveOptions.instance != null)
-            SaveOptions.instance.UpdateXAxis(b);
-}
+    {
+        SaveOptions.instance.UpdateXAxis(b);
+    }
     public void AxisY(bool b)
     {
-        if (SaveOptions.instance != null)
-            SaveOptions.instance.UpdateYAxis(b);
+        SaveOptions.instance.UpdateYAxis(b);
     }
 }

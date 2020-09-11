@@ -13,7 +13,7 @@ public class SettingsMusicSlider : MonoBehaviour
     public Text sfxVolumeText;
     public Slider sfxVolumeSlider;
 
-    private float valuePurcentage = 40;
+    private float valuePurcentage = 80;
 
     private void Awake()
     {

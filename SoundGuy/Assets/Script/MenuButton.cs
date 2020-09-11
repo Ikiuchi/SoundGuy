@@ -17,6 +17,9 @@ public class MenuButton : MonoBehaviour
 	public GameObject buttonSelectedLevel;
 	public EventSystem eventSystem;
 
+	public Toggle inversX;
+	public Toggle inversY;
+
 	public void Start()
 	{
 		panelLevel.SetActive(false);
@@ -33,6 +36,9 @@ public class MenuButton : MonoBehaviour
 
 	public void Options()
 	{
+		inversX.isOn = SaveOptions.instance.invertXAxis;
+		inversY.isOn = SaveOptions.instance.invertYAxis;
+
 		panelLevel.SetActive(false);
 		panelButton.SetActive(false);
 		panelSettings.SetActive(true);

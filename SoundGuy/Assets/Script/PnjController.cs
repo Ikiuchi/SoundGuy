@@ -39,6 +39,8 @@ public class PnjController : MonoBehaviour
     private Follower f;
     private Player pl;
 
+    public AudioSource hitSource;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -217,6 +219,8 @@ public class PnjController : MonoBehaviour
         rb.freezeRotation = false;
 
         rb.AddForce(-impulse * impulseValue, ForceMode.Impulse);
+
+        hitSource.Play();
 
         Invoke("Destroy", 5.0f);
     }
