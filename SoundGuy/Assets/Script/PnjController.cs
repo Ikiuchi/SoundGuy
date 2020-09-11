@@ -61,6 +61,17 @@ public class PnjController : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
+
+        if (follow)
+        {
+            Collider[] collider = Physics.OverlapSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
+            if (collider.Length == 0f)
+            {
+                Invoke("Destroy", 3.0f);
+                UnActiveNavMesh();
+            }
+        }
+
         if (isDashing)
         {
             currentTimerDash += Time.deltaTime;
