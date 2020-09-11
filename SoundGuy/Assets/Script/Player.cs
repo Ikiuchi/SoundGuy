@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
         currentMoveSpeed = moveSpeed;
         if (rigidBody.freezeRotation)
         {
-            if (useDash)
+            /*if (useDash)
             {
                 currentTimerDash += Time.deltaTime;
                 movement = Vector3.zero;
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
                     useDash = false;
                 }
                 return;
-            }
+            }*/
             movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
             movement.Normalize();
@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
 
             isGrounding = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
 
-            if (isGrounding)
+            /*if (isGrounding)
             {
                 if (Input.GetButtonDown("Jump"))
                 {
@@ -155,13 +155,17 @@ public class Player : MonoBehaviour
                     CreateJumpTrigger();
                 }
                 animator.SetBool("Falling", false);
-            }
-            else if(!animator.GetBool("Falling"))
+            }*/
+            if(!animator.GetBool("Falling") && !isGrounding)
             {
                 animator.SetBool("Falling", true);
             }
+            else
+            {
+                animator.SetBool("Falling", false);
+            }
 
-            if (Input.GetButtonDown("Dash") && !useDash)
+            /*if (Input.GetButtonDown("Dash") && !useDash)
             {
                 Vector3 dashDirection = movement;
                 if (movement == Vector3.zero)
@@ -173,7 +177,7 @@ public class Player : MonoBehaviour
                 useDash = true;
                 lastPosDash = transform.position;
                 CreateDashTrigger();
-            }
+            }*/
 
             if (Input.GetAxis("Sprint") > 0f || Input.GetButton("Sprint"))
             {
