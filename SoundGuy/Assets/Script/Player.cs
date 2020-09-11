@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
     MusicMgr music;
     public float[] fieldOfViewLvl = new float[5] { 40, 44, 48, 52, 64 };
     private float currentLvl = 0;
+    public AudioSource hitsource;
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +93,8 @@ public class Player : MonoBehaviour
             UpdateXAxis(SaveOptions.instance.invertXAxis);
             UpdateYAxis(SaveOptions.instance.invertYAxis);
         }
+
+        hitsource.playOnAwake = false;
         
     }
 
@@ -281,6 +284,7 @@ public class Player : MonoBehaviour
         {
             Fall();
             animator.SetBool("Hit", true);
+            hitsource.Play();
         }
 	}
 
