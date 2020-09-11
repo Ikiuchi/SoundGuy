@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.UI;
+using UnityEngine.UI;
 
 public class FallingPlateform : MonoBehaviour
 {
@@ -10,6 +12,10 @@ public class FallingPlateform : MonoBehaviour
     private bool updateTimer = false;
 
     public List<Material> materials;
+    private Material currentMaterial;
+
+    bool firstChange = false;
+    bool secondChange = false;
 
     MeshRenderer m;
 
@@ -17,17 +23,35 @@ public class FallingPlateform : MonoBehaviour
     {
         currentTimer = fallingTimer;
         m = GetComponent<MeshRenderer>();
+
+        currentMaterial = GetComponent<MeshRenderer>().material;
+        GetComponent<MeshRenderer>().material = materials[0];
     }
 
     // Update is called once per frame
     void Update()
     {
+  //      if (updateTimer)
+		//{
+  //          currentTimer -= Time.deltaTime;
+  //          Color c = m.material.color;
+  //          c.g -= Time.deltaTime * ((100 / fallingTimer) /100);
+  //          m.material.color = c;
+  //      }
+
         if (updateTimer)
-		{
+        {
             currentTimer -= Time.deltaTime;
-            Color c = m.material.color;
-            c.g -= Time.deltaTime * ((100 / fallingTimer) /100);
-            m.material.color = c;
+            if (currentTimer <= fallingTimer / 3)
+			{
+                if (!firstChange)
+                    GetComponent<MeshRenderer>().material = materials[2]; firstChange = true;
+			}
+            else if (currentTimer <= (fallingTimer / 3) * 2)
+			{
+                if (!secondChange)
+                    GetComponent<MeshRenderer>().material = materials[1]; secondChange = true;
+			}
         }
 
         if (currentTimer <= 0)
