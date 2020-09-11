@@ -9,7 +9,6 @@ public class OnClickButton : MonoBehaviour
 {
     public void PlaySound(AudioSource source)
     {
-        Debug.Log("hi");
         source.Play();
     }
 }
