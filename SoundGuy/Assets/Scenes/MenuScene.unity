@@ -2367,6 +2367,8 @@ MonoBehaviour:
   buttonSelectedReturnToMenu: {fileID: 120623646}
   buttonSelectedLevel: {fileID: 2034892927}
   eventSystem: {fileID: 1295411215}
+  inversX: {fileID: 1185289037}
+  inversY: {fileID: 1740839330}
 --- !u!114 &1066943786
 MonoBehaviour:
   m_ObjectHideFlags: 0

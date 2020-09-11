@@ -29,7 +29,8 @@ public class SaveOptions : MonoBehaviour
 		if (player == null)
 			player = FindObjectOfType<Player>();
 
-		invertXAxis = b;
+		instance.invertXAxis = b;
+		Debug.Log("m_XAxis : " + SaveOptions.instance.invertXAxis);
 
 		if (player != null)
 			player.UpdateXAxis(invertXAxis);
@@ -40,7 +41,9 @@ public class SaveOptions : MonoBehaviour
 		if (player == null)
 			player = FindObjectOfType<Player>();
 
-		invertYAxis = b;
+		instance.invertYAxis = b;
+		Debug.Log("m_YAxis : " + SaveOptions.instance.invertYAxis);
+
 		if (player != null)
 			player.UpdateYAxis(invertYAxis);
 	}

@@ -202,8 +202,11 @@ public class Player : MonoBehaviour
             animator.SetBool("Sprint", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-            SceneManager.LoadScene("PauseScene");
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
+		{
+            Time.timeScale = 0;
+            SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
+        }
 
         if (currentTimer > 0)
             currentTimer -= Time.deltaTime;
@@ -310,11 +313,9 @@ public class Player : MonoBehaviour
     public void UpdateXAxis(bool b)
 	{
         cam.m_XAxis.m_InvertInput = b;
-        Debug.Log("m_XAxis invert");
     }
     public void UpdateYAxis(bool b)
     {
         cam.m_YAxis.m_InvertInput = b;
-        Debug.Log("m_YAxis invert");
     }
 }
