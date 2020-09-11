@@ -20,23 +20,27 @@ public class OnClickButton : MonoBehaviour
         if (!mixer)
             return;
 
-        for (int i = 0; i < source.Length - 1; i++)
+        for (int i = 0; i < source.Length; i++)
         {
             source[i] = SoundClick.AddComponent<AudioSource>();
             source[i].clip = audioClips[i];
-            //source[i].playOnAwake = false;
+            source[i].loop = true;
+            source[i].playOnAwake = false;
             source[i].outputAudioMixerGroup = mixer.FindMatchingGroups("Master")[2];
+            //source[i].Play();
         }
 
-        for (int i = 0; i < buttons.Length - 1; i++)
+        /*for (int i = 0; i < buttons.Length; i++)
         {
-            //Debug.Log(i);
-            //buttons[i].onClick.AddListener(() => PlaySound(i));
-        }
+            Debug.Log("i " + i);
+            buttons[i].onClick.AddListener(() => PlaySound(source[i]));
+            source[i].Play();
+        }*/
     }
 
-    void PlaySound(int index)
+    public void PlaySound(AudioSource source)
     {
-        source[index].Play();
+        Debug.Log("hi");
+        source.Play();
     }
 }
