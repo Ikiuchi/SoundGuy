@@ -20,10 +20,14 @@ public class MenuButton : MonoBehaviour
 	public Toggle inversX;
 	public Toggle inversY;
 
+	public GameObject firstSelected;
+
+
 	public void Start()
 	{
 		panelLevel.SetActive(false);
 		panelSettings.SetActive(false);
+		eventSystem.SetSelectedGameObject(firstSelected.gameObject);
 	}
 
 	public void Play()
