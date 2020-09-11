@@ -89,7 +89,7 @@ public class PnjController : MonoBehaviour
 	{
         if (onPlateform)
             MovementOnPlateform();
-        else if (navmesh.enabled)
+        else if (navmesh.enabled && player != null)
             navmesh.destination = player.position;
     }
 
@@ -183,7 +183,6 @@ public class PnjController : MonoBehaviour
         if (follow)
 		{
 
-        Debug.Log("jump");
         UnActiveNavMesh();
 
         Vector3 dir = player.position - transform.position;
