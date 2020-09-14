@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
 
             isGrounding = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
 
-            /*if (isGrounding)
+            if (isGrounding)
             {
                 if (Input.GetButtonDown("Jump"))
                 {
@@ -155,15 +155,15 @@ public class Player : MonoBehaviour
                     CreateJumpTrigger();
                 }
                 animator.SetBool("Falling", false);
-            }*/
-            if(!animator.GetBool("Falling") && !isGrounding)
+            }
+            else if(!animator.GetBool("Falling") && !isGrounding)
             {
                 animator.SetBool("Falling", true);
             }
-            else
+            /*else
             {
                 animator.SetBool("Falling", false);
-            }
+            }*/
 
             /*if (Input.GetButtonDown("Dash") && !useDash)
             {
@@ -264,8 +264,8 @@ public class Player : MonoBehaviour
     public void CreateJumpTrigger()
 	{
         playerJump();
-        //GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
-        //g.transform.right = transform.forward;
+        GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
+        g.transform.right = transform.forward;
     }
     public void CreateDashTrigger()
     {

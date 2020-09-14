@@ -13,6 +13,7 @@ public class PnjController : MonoBehaviour
     private bool isDashing = false;
     private bool endDashing = false;
     private bool isGrounded = true;
+    private bool isJumping = false;
     private NavMeshAgent navmesh;
 
     private CapsuleCollider caps;
@@ -62,15 +63,18 @@ public class PnjController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
 
-        if (follow)
+        if (follow && !isJumping)
         {
             Collider[] collider = Physics.OverlapSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
             if (collider.Length == 0f)
             {
                 Invoke("Destroy", 3.0f);
                 UnActiveNavMesh();
+                isJumping = true;
             }
         }
+        else if (isGrounded)
+            isJumping = false;
 
         if (isDashing)
         {
@@ -140,6 +144,7 @@ public class PnjController : MonoBehaviour
 
         rb.freezeRotation = false;
         onPlateform = false;
+        isJumping = false;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -158,7 +163,7 @@ public class PnjController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Water"))
         {
             onPlateform = true;
-            transform.position = other.transform.position + new Vector3(0f, 1f, 0f);
+            //transform.position = other.transform.position + new Vector3(0f, 1f, 0f);
         }
     }
 
@@ -173,7 +178,7 @@ public class PnjController : MonoBehaviour
         if (dead)
             return;
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") && !isJumping)
             ActiveNavMesh();
         if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
         {
@@ -191,15 +196,16 @@ public class PnjController : MonoBehaviour
 
 	private void Jump()
 	{
-        if (follow)
+        if (follow && !isJumping)
 		{
+            UnActiveNavMesh();
 
-        UnActiveNavMesh();
-
-        Vector3 dir = player.position - transform.position;
-        dir.Normalize();
-        dir.y = 1;
-        rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -1f * Physics.gravity.y), ForceMode.Impulse);
+            Vector3 dir = player.position - transform.position;
+            dir.Normalize();
+            dir.y = 1;
+            dir.Normalize();
+            rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.Impulse);
+            isJumping = true;
 		}
     }
 

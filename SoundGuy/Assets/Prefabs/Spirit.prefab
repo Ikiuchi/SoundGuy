@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   slowingSpeed: 3
-  jumpHeight: 3.4
+  jumpHeight: 2
   dashPower: 13
   dashDistance: 10
   YDashDirection: 0.05

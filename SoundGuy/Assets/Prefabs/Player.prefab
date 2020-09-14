@@ -172,7 +172,7 @@ MonoBehaviour:
   groundChecker: {fileID: 5561938274578569758}
   ground:
     serializedVersion: 2
-    m_Bits: 1025
+    m_Bits: 1041
   fallingTimer: 5
   jumpTrigger: {fileID: 5365451883430960464, guid: bdeabcda4163a0a44a77dc129ac55223,
     type: 3}
@@ -493,7 +493,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561938273334501699}
-  m_LocalRotation: {x: 0.13505927, y: 0.0015099825, z: -0.00020582322, w: 0.9908364}
+  m_LocalRotation: {x: 0.13505886, y: 0.0028708419, z: -0.00039131974, w: 0.99083334}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -819,7 +819,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561938273952137800}
-  m_LocalRotation: {x: 0.1350594, y: 0.000000018250084, z: -0.0000000024876385, w: 0.9908375}
+  m_LocalRotation: {x: 0.13505942, y: -8.719026e-16, z: 1.7869098e-17, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -893,7 +893,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561938273969647075}
-  m_LocalRotation: {x: 0.13505942, y: -3.6211834e-16, z: -1.0400603e-16, w: 0.9908375}
+  m_LocalRotation: {x: 0.1350594, y: 0.000000014764631, z: -0.0000000020125421, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

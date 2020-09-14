@@ -74,7 +74,8 @@ public class MovingPlateform : MonoBehaviour
         else if (pnj != null)
         {
             pnj.UnActiveNavMesh();
-            other.transform.position = transform.position + Vector3.up;
+            
+            //other.transform.position = transform.position + Vector3.up;
             other.transform.parent = transform;
         }
     }
