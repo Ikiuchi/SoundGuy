@@ -38,6 +38,13 @@ public class DefeatTrigger : MonoBehaviour
             Destroy(player.gameObject);
             defeatSound.Play();
             needToUpdate = true;
+            return;
+        }
+        PnjController pnj = other.GetComponent<PnjController>();
+        if(pnj != null) 
+        {
+            pnj.UnCharmed();
+            Destroy(other.gameObject);
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class PnjController : MonoBehaviour
 {
     private Transform player = null;
+    private Transform lastParent;
     public float moveSpeed = 5.0f;
     public float slowingSpeed = 3.0f;
     public float jumpHeight = 2;
@@ -57,6 +58,8 @@ public class PnjController : MonoBehaviour
         f = FindObjectOfType<Follower>();
 
         pl.playerJump = Jump;
+
+        lastParent = transform.parent;
     }
 
     void Update()
@@ -68,7 +71,6 @@ public class PnjController : MonoBehaviour
             Collider[] collider = Physics.OverlapSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
             if (collider.Length == 0f)
             {
-                Invoke("Destroy", 3.0f);
                 UnActiveNavMesh();
                 isJumping = true;
             }
@@ -76,13 +78,13 @@ public class PnjController : MonoBehaviour
         else if (isGrounded)
             isJumping = false;
 
-        if (isDashing)
+        /*if (isDashing)
         {
             currentTimerDash += Time.deltaTime;
             if ((lastPosDash - transform.position).magnitude >= dashDistance && !endDashing || currentTimerDash >= timerDash && !endDashing)
             {
                 currentTimerDash = 0f;
-                rb.velocity = /*new Vector3(0f, rb.velocity.y, 0f) +*/ transform.forward * 10f;
+                rb.velocity = transform.forward * 10f;
                 endDashing = true;
             }
             if (isGrounded && endDashing)
@@ -94,7 +96,7 @@ public class PnjController : MonoBehaviour
                 endDashing = false;
             }
             return;
-        }
+        }*/
 
         if (follow)
             Movement();
@@ -160,7 +162,7 @@ public class PnjController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("CharmingMusic"))
             Charmed();
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("Water"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Water") && !isJumping)
         {
             onPlateform = true;
             //transform.position = other.transform.position + new Vector3(0f, 1f, 0f);
@@ -190,23 +192,31 @@ public class PnjController : MonoBehaviour
     private void MovementOnPlateform()
 	{
         Vector3 dir = player.position - transform.position;
+        dir.y = 0f;
 
-        transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+        if(dir.magnitude > 1f && !isJumping)
+            transform.position += dir.normalized * moveSpeed * Time.deltaTime;
 	}
 
 	private void Jump()
 	{
         if (follow && !isJumping)
 		{
-            UnActiveNavMesh();
-
+            if(rb.useGravity == false)
+                UnActiveNavMesh();
+            if (transform.parent != lastParent)
+                transform.parent = lastParent;
             Vector3 dir = player.position - transform.position;
             dir.Normalize();
             dir.y = 1;
             dir.Normalize();
-            rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.Impulse);
+            rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            if(onPlateform)
+                rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
             isJumping = true;
-		}
+            onPlateform = false;
+
+        }
     }
 
     private void Dash()

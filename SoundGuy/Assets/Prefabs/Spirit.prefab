@@ -125,7 +125,7 @@ MonoBehaviour:
   groundChecker: {fileID: 234654750691021441}
   ground:
     serializedVersion: 2
-    m_Bits: 1025
+    m_Bits: 1041
   impulseValue: 1
   hitSource: {fileID: 1105856225460453332}
 --- !u!136 &2526531925171718540
