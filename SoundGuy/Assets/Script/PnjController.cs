@@ -180,7 +180,7 @@ public class PnjController : MonoBehaviour
         if (dead)
             return;
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") && !isJumping)
+        if ((collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Default")) && !isJumping)
             ActiveNavMesh();
         if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
         {
