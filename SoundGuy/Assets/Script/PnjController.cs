@@ -210,9 +210,10 @@ public class PnjController : MonoBehaviour
             dir.Normalize();
             dir.y = 1;
             dir.Normalize();
+            rb.velocity = Vector3.zero;
             rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-            if(onPlateform)
-                rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            /*if(onPlateform)
+                rb.AddForce(dir.normalized * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);*/
             isJumping = true;
             onPlateform = false;
 
