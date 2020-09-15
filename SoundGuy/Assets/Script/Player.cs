@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
         currentMoveSpeed = moveSpeed;
         if (rigidBody.freezeRotation)
         {
-            /*if (useDash)
+            if (useDash)
             {
                 currentTimerDash += Time.deltaTime;
                 movement = Vector3.zero;
@@ -128,8 +128,9 @@ public class Player : MonoBehaviour
                     rigidBody.velocity = Vector3.zero;
                     useDash = false;
                 }
-                return;
-            }*/
+                else
+                    return;
+            }
 
 
             MovementDirection();
@@ -138,7 +139,7 @@ public class Player : MonoBehaviour
 
             Jump();
 
-            /*if (Input.GetButtonDown("Dash") && !useDash)
+            if (Input.GetButtonDown("Dash") && !useDash)
             {
                 Vector3 dashDirection = movement;
                 if (movement == Vector3.zero)
@@ -150,7 +151,7 @@ public class Player : MonoBehaviour
                 useDash = true;
                 lastPosDash = transform.position;
                 CreateDashTrigger();
-            }*/
+            }
 
             ChooseSpeedMovement();
         }

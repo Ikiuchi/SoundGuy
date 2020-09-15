@@ -65,6 +65,25 @@ public class PnjController : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
+        if (isDashing)
+        {
+            currentTimerDash += Time.deltaTime;
+
+            if (currentTimerDash >= timerDash && !endDashing)
+            {
+                currentTimerDash = 0f;
+                //rb.velocity = transform.forward * 10f;
+                endDashing = true;
+            }
+            if (isGrounded && endDashing)
+            {
+                ActiveNavMesh();
+                isDashing = false;
+                endDashing = false;
+            }
+            else
+                return;
+        }
 
         if (follow && !isJumping)
         {
@@ -78,25 +97,6 @@ public class PnjController : MonoBehaviour
         else if (follow && isGrounded)
             isJumping = false;
 
-        /*if (isDashing)
-        {
-            currentTimerDash += Time.deltaTime;
-            if ((lastPosDash - transform.position).magnitude >= dashDistance && !endDashing || currentTimerDash >= timerDash && !endDashing)
-            {
-                currentTimerDash = 0f;
-                rb.velocity = transform.forward * 10f;
-                endDashing = true;
-            }
-            if (isGrounded && endDashing)
-            {
-                navmesh.enabled = true;
-                rb.isKinematic = true;
-                rb.useGravity = false;
-                isDashing = false;
-                endDashing = false;
-            }
-            return;
-        }*/
 
         if (follow)
             Movement();
@@ -164,6 +164,8 @@ public class PnjController : MonoBehaviour
         {
             Dash();
             other.GetComponent<DestroyTrigger>().SpiritJumpDecrease();
+            if(!isGrounded)
+                other.GetComponent<DestroyTrigger>().SpiritJumpDecrease();
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("CharmingMusic"))
@@ -186,7 +188,7 @@ public class PnjController : MonoBehaviour
         if (dead)
             return;
 
-        if ((collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Default")) && !isJumping)
+        if ((collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Default")) && (!isJumping && !isDashing))
             ActiveNavMesh();
         if (collision.gameObject.layer == LayerMask.NameToLayer("DeathBall"))
         {
@@ -228,15 +230,13 @@ public class PnjController : MonoBehaviour
 
     private void Dash()
 	{
-        navmesh.enabled = false;
-        rb.isKinematic = false;
-        rb.WakeUp();
-        rb.useGravity = true;
+        UnActiveNavMesh();
 
         Vector3 dashDirection = player.position - transform.position;
         dashDirection.y = YDashDirection;
         dashDirection.Normalize();
-        rb.AddForce(dashDirection.normalized * dashPower, ForceMode.VelocityChange);
+        rb.velocity = Vector3.zero;
+        rb.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
         currentTimerDash = 0f;
 
         lastPosDash = transform.position;

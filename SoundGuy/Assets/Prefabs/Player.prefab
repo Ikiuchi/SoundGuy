@@ -165,9 +165,9 @@ MonoBehaviour:
   turnSpeed: 15
   jumpHeight: 2
   dashPower: 50
-  dashDistance: 10
+  dashDistance: 200
   YDashDirection: 0.05
-  timerDash: 1
+  timerDash: 0.5
   rotationSmoothTime: 0.1
   groundChecker: {fileID: 5561938274578569758}
   ground:

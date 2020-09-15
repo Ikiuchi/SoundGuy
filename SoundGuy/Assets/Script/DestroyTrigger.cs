@@ -21,7 +21,6 @@ public class DestroyTrigger : MonoBehaviour
 
 	private void Destroy()
 	{
-        Debug.Log("hi destroy man");
         Destroy(gameObject);
 	}
 }
