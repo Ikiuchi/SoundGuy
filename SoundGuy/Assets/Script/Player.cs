@@ -7,7 +7,6 @@ using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
 {
-    private CharacterController characterController;
     private Rigidbody rigidBody;
     private Transform mainCamera;
 
@@ -70,10 +69,11 @@ public class Player : MonoBehaviour
     private float currentLvl = 0;
     public AudioSource hitsource;
 
+    private Follower followerManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
         rigidBody = GetComponent<Rigidbody>();
 
         mainCamera = Camera.main.transform;
@@ -95,7 +95,9 @@ public class Player : MonoBehaviour
         }
 
         hitsource.playOnAwake = false;
-        
+
+        followerManager = FindObjectOfType<Follower>();
+
     }
 
     // Update is called once per frame
@@ -128,42 +130,13 @@ public class Player : MonoBehaviour
                 }
                 return;
             }*/
-            movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-            movement.Normalize();
 
-            if (movement.magnitude >= 0.1f)
-            {
-                float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSmoothVelocity, rotationSmoothTime);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-                movement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            }
-
+            MovementDirection();
 
             isGrounding = Physics.CheckSphere(groundChecker.position, GroundDistance, ground, QueryTriggerInteraction.Ignore);
 
-            if (isGrounding)
-            {
-                if (Input.GetButtonDown("Jump"))
-                {
-					if (transform.parent != null)
-						transform.parent = null;
-					rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-                    animator.SetBool("Falling", true);
-                    CreateJumpTrigger();
-                }
-                animator.SetBool("Falling", false);
-            }
-            else if(!animator.GetBool("Falling") && !isGrounding)
-            {
-                animator.SetBool("Falling", true);
-            }
-            /*else
-            {
-                animator.SetBool("Falling", false);
-            }*/
+            Jump();
 
             /*if (Input.GetButtonDown("Dash") && !useDash)
             {
@@ -179,28 +152,10 @@ public class Player : MonoBehaviour
                 CreateDashTrigger();
             }*/
 
-            if (Input.GetAxis("Sprint") > 0f || Input.GetButton("Sprint"))
-            {
-                currentMoveSpeed = moveSprintSpeed;
-                sprinting = true;
-            }
-            else if ((Input.GetAxis("Sprint") == 0f || Input.GetButtonDown("Sprint")) && sprinting)
-            {
-                currentMoveSpeed = moveSpeed;
-                sprinting = false;
-            }
+            ChooseSpeedMovement();
         }
 
-        if (currentMoveSpeed == moveSpeed * ratio)
-        {
-            animator.SetBool("Walk", true);
-            animator.SetBool("Sprint", false);
-        }
-        else if (currentMoveSpeed == moveSprintSpeed * ratio)
-        {
-            animator.SetBool("Walk", false);
-            animator.SetBool("Sprint", true);
-        }
+        CheckAnimationWalkSprint();
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
 		{
@@ -223,6 +178,70 @@ public class Player : MonoBehaviour
             rigidBody.velocity = movement * ratio * currentMoveSpeed * 50 * Time.fixedDeltaTime;
         else if (rigidBody.freezeRotation)
             rigidBody.MovePosition(transform.position + movement * ratio * currentMoveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void Jump()
+    {
+        if (isGrounding)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (transform.parent != null)
+                    transform.parent = null;
+                rigidBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+                animator.SetBool("Falling", true);
+                CreateJumpTrigger();
+            }
+            animator.SetBool("Falling", false);
+        }
+        else if (!animator.GetBool("Falling") && !isGrounding)
+        {
+            animator.SetBool("Falling", true);
+        }
+    }
+
+    private void ChooseSpeedMovement()
+    {
+        if (Input.GetAxis("Sprint") > 0f || Input.GetButton("Sprint"))
+        {
+            currentMoveSpeed = moveSprintSpeed;
+            sprinting = true;
+        }
+        else if ((Input.GetAxis("Sprint") == 0f || Input.GetButtonDown("Sprint")) && sprinting)
+        {
+            currentMoveSpeed = moveSpeed;
+            sprinting = false;
+        }
+    }
+
+    private void MovementDirection()
+    {
+        movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        movement.Normalize();
+
+        if (movement.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSmoothVelocity, rotationSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            movement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+        }
+    }
+
+    private void CheckAnimationWalkSprint()
+    {
+        if (currentMoveSpeed == moveSpeed * ratio)
+        {
+            animator.SetBool("Walk", true);
+            animator.SetBool("Sprint", false);
+        }
+        else if (currentMoveSpeed == moveSprintSpeed * ratio)
+        {
+            animator.SetBool("Walk", false);
+            animator.SetBool("Sprint", true);
+        }
     }
 
     private void CameraFieldOfView(int level)
@@ -266,12 +285,13 @@ public class Player : MonoBehaviour
         playerJump();
         GameObject g = Instantiate(jumpTrigger, transform.position, Quaternion.identity);
         g.transform.right = transform.forward;
+        g.GetComponent<DestroyTrigger>().currentNbSpirit = followerManager.nbFollower * 2;
     }
     public void CreateDashTrigger()
     {
         GameObject g = Instantiate(dashTrigger, transform.position, Quaternion.identity);
         g.transform.right = transform.forward;
-
+        g.GetComponent<DestroyTrigger>().currentNbSpirit = followerManager.nbFollower * 2;
     }
 
     private void OnTriggerEnter(Collider other)

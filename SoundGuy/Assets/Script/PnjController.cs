@@ -75,7 +75,7 @@ public class PnjController : MonoBehaviour
                 isJumping = true;
             }
         }
-        else if (isGrounded)
+        else if (follow && isGrounded)
             isJumping = false;
 
         /*if (isDashing)
@@ -136,6 +136,7 @@ public class PnjController : MonoBehaviour
         rb.useGravity = true;
 
         rb.freezeRotation = true;
+        rb.WakeUp();
     }
 
     public void ActiveNavMesh()
@@ -155,9 +156,15 @@ public class PnjController : MonoBehaviour
             navmesh.speed = slowingSpeed;
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Jump"))
+        {
             Jump();
+            other.GetComponent<DestroyTrigger>().SpiritJumpDecrease();
+        }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Dash"))
+        {
             Dash();
+            other.GetComponent<DestroyTrigger>().SpiritJumpDecrease();
+        }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("CharmingMusic"))
             Charmed();
@@ -165,7 +172,6 @@ public class PnjController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Water") && !isJumping)
         {
             onPlateform = true;
-            //transform.position = other.transform.position + new Vector3(0f, 1f, 0f);
         }
     }
 
@@ -224,6 +230,7 @@ public class PnjController : MonoBehaviour
 	{
         navmesh.enabled = false;
         rb.isKinematic = false;
+        rb.WakeUp();
         rb.useGravity = true;
 
         Vector3 dashDirection = player.position - transform.position;
@@ -242,6 +249,7 @@ public class PnjController : MonoBehaviour
         dead = true;
         navmesh.enabled = false;
         rb.isKinematic = false;
+        rb.WakeUp();
         rb.useGravity = true;
         rb.freezeRotation = false;
 
